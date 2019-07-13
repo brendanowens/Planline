@@ -1,0 +1,28 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+django = "*"
+certifi = "*"
+setuptools = "*"
+django-webpack-loader = "*"
+pipenv = "*"
+djangorestframework = "*"
+django-rest-knox = "*"
+django-tenants = "*"
+psycopg2 = "*"
+django-environ = "*"
+django-solo = "*"
+django-polymorphic = "*"
+django-phone-field = "*"
+pillow = "*"
+django-countries = "*"
+django-dynamic-model = "*"
+django-eav2 = "*"
+
+[requires]
+python_version = "3.6"

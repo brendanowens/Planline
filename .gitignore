@@ -1,0 +1,7 @@
+.idea/
+__pycache__/
+db.sqlite3
+node_modules/
+venv/
+webpack-stats.json
+yarn-error.log
