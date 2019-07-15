@@ -23,6 +23,7 @@ pillow = "*"
 django-countries = "*"
 django-dynamic-model = "*"
 django-eav2 = "*"
+drf-keyed-list = "*"
 
 [requires]
 python_version = "3.6"

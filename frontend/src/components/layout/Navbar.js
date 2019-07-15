@@ -80,7 +80,7 @@ export class MyHeader extends React.Component {
                         <Menu.Item key="account:1" onClick={this.props.logout}>Logout</Menu.Item>
                         <Menu.Item key="account:2">
                             <span>Organization Settings</span>
-                            <Link to={'/'}/>
+                            <Link to={'/settings'}/>
                         </Menu.Item>
                     </SubMenu>
                 </Menu>

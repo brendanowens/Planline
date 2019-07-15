@@ -60,9 +60,17 @@ class ContactSerializer(serializers.ModelSerializer):
 
 
 class AttributeSerializer(serializers.ModelSerializer):
+    datatype_display = serializers.CharField(source='get_datatype_display', read_only=True)
+
     class Meta:
         model = Attribute
-        fields = '__all__'
+        fields = ['id', 'datatype', 'name', 'datatype_display', ]
+        extra_kwargs = {
+            'id': {
+                'read_only': False,
+                'required': True
+            }
+        }
 
 
 class AttributeValueSerializer(serializers.ModelSerializer):
@@ -76,11 +84,36 @@ class AttributeValueSerializer(serializers.ModelSerializer):
 
 class VendorTypeSerializer(serializers.ModelSerializer):
     attributes = AttributeSerializer(many=True, source='get_vendor_attributes')
-    number_of_attributes = serializers.IntegerField()
+    number_of_attributes = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = VendorType
         fields = '__all__'
+
+    def create(self, validated_data):
+        vendor_type = VendorType.objects.create(name=validated_data['name'])
+        for item in validated_data['get_vendor_attributes']:
+            vendor_type.create_attribute(name=item['name'], data_type=item['datatype'])
+        return vendor_type
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data['name']
+        instance.save()
+
+        attribute_ids = [item['id'] for item in validated_data['get_vendor_attributes']]
+        for attribute in instance.get_vendor_attributes():
+            if attribute.id not in attribute_ids:
+                attribute.delete()
+
+        for attribute in validated_data['get_vendor_attributes']:
+            try:
+                attribute_obj = Attribute.objects.get(pk=attribute['id'])
+                attribute_obj.name = attribute['name']
+                attribute_obj.datatype = attribute['datatype']
+                attribute_obj.save()
+            except Attribute.DoesNotExist:
+                instance.create_attribute(name=attribute['name'], data_type=attribute['datatype'])
+        return instance
 
 
 class VendorSerializer(serializers.ModelSerializer):

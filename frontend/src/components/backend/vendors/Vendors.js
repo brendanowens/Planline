@@ -80,7 +80,7 @@ export class Vendors extends React.Component {
                                 <Link to="/vendors/add/"/>
                             </Menu.Item>
                             <Menu.Item key="3">
-                                <Icon type="plus"/>
+                                <Icon type="tags" />
                                 <span>Vendor Types</span>
                                 <Link to="/vendors/types/"/>
                             </Menu.Item>

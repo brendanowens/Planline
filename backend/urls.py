@@ -9,7 +9,7 @@ router = routers.DefaultRouter()
 router.register('api/config', PlannerClientConfigViewSet, 'config')
 router.register('api/vendors', VendorViewSet, 'vendors')
 router.register('api/vendor-types', VendorTypeViewSet, 'vendor_types')
-router.register('api/attributes', AttributeViewSet, 'attributes')
+# router.register('api/attributes', AttributeViewSet, 'attributes')
 router.register('api/attribute-values', AttributeValueViewSet, 'attribute_values')
 
 urlpatterns = [

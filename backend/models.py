@@ -24,10 +24,6 @@ class PlannerClientConfig(SingletonModel):
         verbose_name = "Site Configuration"
 
 
-class Client(models.Model):
-    name = models.CharField(max_length=50)  # don't actually need this field, name should go on project
-
-
 class Contact(PolymorphicModel):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -35,6 +31,19 @@ class Contact(PolymorphicModel):
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
+
+
+class Client(models.Model):
+    name = models.CharField(max_length=50)  # don't actually need this field, name should go on project
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=50)
+    expected_completion_date = models.DateField()
+
+
+class ProjectContact(Contact):
+    project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, related_name='project_contacts')
 
 
 class Address(models.Model):

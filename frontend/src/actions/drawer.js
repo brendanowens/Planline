@@ -3,12 +3,11 @@ import {
     SHOW_DRAWER
 } from "./types";
 
-export const showDrawer = (id) => (dispatch) => {
+export const showDrawer = (object) => (dispatch) => {
     dispatch({
         type: SHOW_DRAWER,
-        payload: id
+        payload: object
     });
-    console.log(id);
 };
 
 export const hideDrawer = () => (dispatch) => {

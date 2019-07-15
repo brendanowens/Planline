@@ -19,6 +19,7 @@ import MyHeader from "./layout/Navbar";
 import Vendors from "./backend/vendors/Vendors";
 import Calendar from "./backend/calendar/Calendar";
 import {Layout} from "antd";
+import Organization from "./backend/organization/Organization";
 
 //Alert options
 const alertOptions = {
@@ -51,6 +52,7 @@ class App extends Component {
                                 <PrivateRoute path="/dashboard" component={Dashboard}/>
                                 <PrivateRoute path="/vendors" component={Vendors}/>
                                 <PrivateRoute path="/calendar" component={Calendar}/>
+                                <PrivateRoute path="/settings" component={Organization}/>
                             </Fragment>
                         </Layout>
                     </Router>
