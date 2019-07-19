@@ -23,7 +23,7 @@ export class CalendarBase extends React.Component {
                             style={{height: '100%', borderRight: 0}}
                         >
                             <Menu.Item key="1">
-                                <Icon type="unordered-list"/>
+                                <Icon type="calendar" />
                                 <span>Full Calendar</span>
                                 <Link to="/calendar/all/"/>
                             </Menu.Item>

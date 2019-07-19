@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from .api import RegisterAPI, LoginAPI, UserAPI, PlannerClientConfigViewSet, VendorViewSet, AttributeViewSet, \
-    AttributeValueViewSet, VendorTypeViewSet
+    AttributeValueViewSet, VendorTypeViewSet, ProjectViewSet
 from knox import views as knox_views
 
 router = routers.DefaultRouter()
@@ -11,6 +11,7 @@ router.register('api/vendors', VendorViewSet, 'vendors')
 router.register('api/vendor-types', VendorTypeViewSet, 'vendor_types')
 # router.register('api/attributes', AttributeViewSet, 'attributes')
 router.register('api/attribute-values', AttributeValueViewSet, 'attribute_values')
+router.register('api/projects', ProjectViewSet, 'projects')
 
 urlpatterns = [
     path('api/auth', include('knox.urls')),

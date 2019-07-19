@@ -8,10 +8,8 @@ import {Layout, Breadcrumb} from 'antd';
 import {deleteVendor, getVendors} from "../../../actions/vendors";
 import PrivateRoute from "../../common/PrivateRoute";
 import {Route} from "react-router-dom";
-// import VendorList from "./VendorList";
-// import VendorAdd from "./VendorAdd";
-// import VendorSearch from "./VendorSearch";
-// import VendorTypeList from "./VendorTypeList";
+import OrganizationSettings from "./OrganizationSettings";
+import OrganizationUsers from "./OrganizationUsers";
 
 const {Content, Sider} = Layout;
 
@@ -39,25 +37,15 @@ export class Organization extends React.Component {
                             style={{height: '100%', borderRight: 0}}
                         >
                             <Menu.Item key="1">
-                                <Icon type="setting" />
+                                <Icon type="setting"/>
                                 <span>Settings</span>
-                                <Link to="/vendors/all/"/>
+                                <Link to="/settings/organization/"/>
                             </Menu.Item>
                             <Menu.Item key="2">
-                                <Icon type="team" />
+                                <Icon type="team"/>
                                 <span>Manage Users</span>
-                                <Link to="/vendors/add/"/>
+                                <Link to="/settings/users/"/>
                             </Menu.Item>
-                            {/*<Menu.Item key="3">*/}
-                            {/*    <Icon type="tags"/>*/}
-                            {/*    <span>Vendor Types</span>*/}
-                            {/*    <Link to="/vendors/types/"/>*/}
-                            {/*</Menu.Item>*/}
-                            {/*<Menu.Item key="4">*/}
-                            {/*    <Icon type="search"/>*/}
-                            {/*    <span>Find A Vendor</span>*/}
-                            {/*    <Link to="/vendors/search/"/>*/}
-                            {/*</Menu.Item>*/}
                         </Menu>
                     </Sider>
                     <Layout style={{padding: '0 24px 24px'}}>
@@ -73,12 +61,12 @@ export class Organization extends React.Component {
                                 margin: 0,
                             }}
                         >
-                            {/*<PrivateRoute exact path={`${this.props.match.url}`} component={VendorList}/>*/}
+                            <PrivateRoute exact path={`${this.props.match.url}`} component={OrganizationSettings}/>
                             <Switch>
-                                {/*<PrivateRoute path={`${this.props.match.url}/all`} component={VendorList}/>*/}
-                                {/*<PrivateRoute path={`${this.props.match.url}/add`} exact component={VendorAdd}/>*/}
-                                {/*<PrivateRoute path={`${this.props.match.url}/types`} exact component={VendorTypeList}/>*/}
-                                {/*<PrivateRoute path={`${this.props.match.url}/search`} exact component={VendorSearch}/>*/}
+                                <PrivateRoute path={`${this.props.match.url}/organization`}
+                                              component={OrganizationSettings}/>
+                                <PrivateRoute path={`${this.props.match.url}/users`} exact
+                                              component={OrganizationUsers}/>
                             </Switch>
                         </Content>
                     </Layout>

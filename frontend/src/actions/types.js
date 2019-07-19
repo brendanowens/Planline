@@ -21,3 +21,6 @@ export const DELETE_VENDOR_TYPE = 'DELETE_VENDOR_TYPE';
 export const ADD_VENDOR_TYPE = 'ADD_VENDOR_TYPE';
 export const SHOW_DRAWER = 'SHOW_DRAWER';
 export const HIDE_DRAWER = 'HIDE_DRAWER';
+export const GET_PROJECTS = 'GET_PROJECTS';
+export const DELETE_PROJECT = 'DELETE_PROJECT';
+export const ADD_PROJECT = 'ADD_PROJECT';

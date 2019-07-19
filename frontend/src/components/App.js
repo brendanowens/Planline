@@ -20,6 +20,8 @@ import Vendors from "./backend/vendors/Vendors";
 import Calendar from "./backend/calendar/Calendar";
 import {Layout} from "antd";
 import Organization from "./backend/organization/Organization";
+import Projects from "./backend/projects/Projects";
+import ProjectDashboard from "./backend/projects/ProjectDashboard";
 
 //Alert options
 const alertOptions = {
@@ -50,6 +52,7 @@ class App extends Component {
                                 <Route path="/register" component={Register}/>
                                 <Route path="/login" component={Login}/>
                                 <PrivateRoute path="/dashboard" component={Dashboard}/>
+                                <PrivateRoute path="/projects" component={Projects}/>
                                 <PrivateRoute path="/vendors" component={Vendors}/>
                                 <PrivateRoute path="/calendar" component={Calendar}/>
                                 <PrivateRoute path="/settings" component={Organization}/>

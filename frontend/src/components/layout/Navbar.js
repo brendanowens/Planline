@@ -1,5 +1,5 @@
 import React from 'react';
-import {Menu, Icon, Avatar} from 'antd';
+import {Menu, Icon, Avatar, Badge} from 'antd';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {logout} from "../../actions/auth";
@@ -42,7 +42,7 @@ export class MyHeader extends React.Component {
                     <Menu.Item key="2">
                         <Icon type="solution"/>
                         <span>Projects</span>
-                        <Link to={'/dashboard'}/>
+                        <Link to={'/projects'}/>
                     </Menu.Item>
                     <Menu.Item key="3">
                         <Icon type="team"/>

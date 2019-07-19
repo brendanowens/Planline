@@ -3,9 +3,9 @@ from rest_framework import generics, permissions, viewsets
 from rest_framework.response import Response
 from knox.models import AuthToken
 
-from backend.models import PlannerClientConfig, Vendor, VendorType
+from backend.models import PlannerClientConfig, Vendor, VendorType, Project
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, PlannerClientConfigSerializer, \
-    VendorSerializer, AttributeSerializer, AttributeValueSerializer, VendorTypeSerializer
+    VendorSerializer, AttributeSerializer, AttributeValueSerializer, VendorTypeSerializer, ProjectSerializer
 
 
 # Register API
@@ -106,3 +106,13 @@ class AttributeValueViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Value.objects.all()
+
+
+class ProjectViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    serializer_class = ProjectSerializer
+
+    def get_queryset(self):
+        return Project.objects.all()

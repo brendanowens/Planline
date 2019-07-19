@@ -6,6 +6,7 @@ import messages from './messages'
 import auth from './auth';
 import vendors from './vendors';
 import drawer from './drawer';
+import projects from './projects';
 
 export default combineReducers({
     leads,
@@ -14,5 +15,6 @@ export default combineReducers({
     auth,
     vendors,
     drawer,
+    projects,
     form: reduxFormReducer,
 })

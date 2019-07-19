@@ -1,6 +1,7 @@
 import eav
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 from django_countries.fields import CountryField
 from eav.decorators import register_eav
@@ -40,6 +41,14 @@ class Client(models.Model):
 class Project(models.Model):
     name = models.CharField(max_length=50)
     expected_completion_date = models.DateField()
+    completed = models.BooleanField(default=False)
+
+    def completed_display(self):
+        return str(self.completed)
+
+    def days_until_completion(self):
+        days = (self.expected_completion_date - timezone.now().date()).days
+        return days
 
 
 class ProjectContact(Contact):
