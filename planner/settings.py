@@ -193,4 +193,14 @@ WEBPACK_LOADER = {
 }
 
 if on_heroku:
-    django_heroku.settings(locals())
+    # django_heroku.settings(locals())
+    # Activate Django-Heroku without database setup.
+    config = locals()
+    django_heroku.settings(config, databases=False)
+    # Manual configuration of database
+    conn_max_age = config.get('CONN_MAX_AGE', 600)  # Used in django-heroku
+    config['DATABASES'] = {
+        'default': dj_database_url.parse(os.environ['DATABASE_URL'], engine='tenant_schemas.postgresql_backend',
+                                         conn_max_age=conn_max_age, ssl_require=True
+                                         )
+    }
