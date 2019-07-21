@@ -6,3 +6,4 @@ venv/
 webpack-stats.json
 yarn-error.log
 frontend/static/frontend/
+.env

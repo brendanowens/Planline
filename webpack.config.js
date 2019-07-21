@@ -10,7 +10,7 @@ module.exports = {
     entry: {
         app: './frontend/src/index.js'
     },
-    watch: true,
+    watch: false,
     devtool: 'source-map',
     output: {
         filename: '[name]-[hash].bundle.js',
