@@ -14,6 +14,7 @@ import os
 from os import getenv
 
 import environ
+import django_heroku
 
 env = environ.Env()
 # reading .env file
@@ -181,3 +182,5 @@ WEBPACK_LOADER = {
         'IGNORE': [r'.+\.hot-update.js', r'.+\.map']
     }
 }
+
+django_heroku.settings(locals())
