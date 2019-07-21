@@ -22,7 +22,7 @@ export class ProjectList extends Component {
             key: 'name',
         },
         {
-            title: 'Expected Completion',
+            title: 'Event Date',
             dataIndex: 'expected_completion_date',
             key: 'expected_completion_date',
         },
@@ -70,10 +70,14 @@ export class ProjectList extends Component {
                                 margin: 0,
                             }}
                         >
-                            <Button onClick={this.props.showDrawer.bind(this, {})}>
-                                <Icon type="plus-circle"/>
-                                Add New Project
-                            </Button>
+                            <Row
+                            style={{paddingBottom: '2rem'}}
+                            >
+                                <Button onClick={this.props.showDrawer.bind(this, {})}>
+                                    <Icon type="plus-circle"/>
+                                    Add New Project
+                                </Button>
+                            </Row>
                             <Table dataSource={this.props.projects} columns={this.columns}
                                    rowKey={project => project.id}/>
                             {this.props.drawer.object !== null ?

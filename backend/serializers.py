@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
 # User Serializer
-from backend.models import PlannerClientConfig, Vendor, VendorType, Address, Contact, Project
+from backend.models import PlannerClientConfig, Vendor, VendorType, Address, Contact, Project, ProjectContact
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -128,9 +128,19 @@ class VendorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ProjectContactSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    projects = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all(), many=True)
+
+    class Meta:
+        model = ProjectContact
+        fields = '__all__'
+
+
 class ProjectSerializer(serializers.ModelSerializer):
     completed_display = serializers.ReadOnlyField()
     days_until_completion = serializers.ReadOnlyField()
+    contact_list = ProjectContactSerializer(read_only=True, many=True)
 
     class Meta:
         model = Project

@@ -50,9 +50,25 @@ class Project(models.Model):
         days = (self.expected_completion_date - timezone.now().date()).days
         return days
 
+    def create_project_user(self, email):
+        """
+        Creates a new ProjectContact object with a relation to the project
+        If the user already exists, the project is added to the ProjectContact model
+        :param email: email to create account using
+        :return: ProjectContact object, bool: project_contact_created, bool: user_created
+        """
+        user, user_created = User.objects.get_or_create(username=email, email=email)
+        project_contact, project_contact_created = ProjectContact.objects.get_or_create(user=user)
+        project_contact.projects.add(self)
+        return project_contact, project_contact_created, user_created
+
 
 class ProjectContact(Contact):
-    project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, related_name='project_contacts')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    projects = models.ManyToManyField(Project, related_name='contact_list')
+
+    def __str__(self):
+        return self.user.username
 
 
 class Address(models.Model):

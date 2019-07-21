@@ -75,7 +75,7 @@ export class ProjectDashboard extends React.Component {
                                 <Link to={`/projects/dashboard/${this.props.match.params.id}/day-of-timeline/`}/>
                             </Menu.Item>
                             <Menu.Item key="8">
-                                <Icon type="audit"/>
+                                <Icon type="profile"/>
                                 <span>Invoices</span>
                                 <Link to={`/projects/dashboard/${this.props.match.params.id}/invoices/`}/>
                             </Menu.Item>

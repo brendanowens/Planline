@@ -5,9 +5,11 @@ import {connect} from "react-redux";
 
 export class ProjectDashboardDashboard extends React.Component {
     data = {
-        datasets: [{
-            data: [2500, 6000]
-        }],
+        datasets: [
+            {
+                data: [2500, 6000]
+            }
+        ],
 
         // These labels appear in the legend and in the tooltips when hovering different arcs
         labels: [
