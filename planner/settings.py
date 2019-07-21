@@ -15,10 +15,15 @@ from os import getenv
 
 import environ
 import django_heroku
+import dj_database_url
 
-env = environ.Env()
-# reading .env file
-environ.Env.read_env()
+on_heroku = False
+if 'DYNO' in os.environ:
+    on_heroku = True
+
+if not on_heroku:
+    env = environ.Env()
+    environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,10 +33,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'q4m09@eh-cg7n163xyqu9#0-splv(knd@_$hm@+6d896g$&9-4'
-SECRET_KEY = env('SECRET_KEY')
+MODE = 'development'
+if not on_heroku:
+    SECRET_KEY = env('SECRET_KEY')
+    MODE = env('SERVER_MODE')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-MODE = env('SERVER_MODE')
 DEBUG = MODE == 'development'
 DEVELOPMENT = DEBUG
 
@@ -124,9 +130,10 @@ WSGI_APPLICATION = 'planner.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
-DATABASES = {
-    'default': env.db(engine='django_tenants.postgresql_backend'),
-}
+if not on_heroku:
+    DATABASES = {
+        'default': env.db(engine='django_tenants.postgresql_backend'),
+    }
 
 DATABASE_ROUTERS = (
     'django_tenants.routers.TenantSyncRouter',
@@ -185,4 +192,5 @@ WEBPACK_LOADER = {
     }
 }
 
-django_heroku.settings(locals())
+if on_heroku:
+    django_heroku.settings(locals())
