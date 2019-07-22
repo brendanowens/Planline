@@ -68,7 +68,7 @@ class AttributeSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'id': {
                 'read_only': False,
-                'required': True
+                'required': False
             }
         }
 
@@ -100,19 +100,26 @@ class VendorTypeSerializer(serializers.ModelSerializer):
         instance.name = validated_data['name']
         instance.save()
 
-        attribute_ids = [item['id'] for item in validated_data['get_vendor_attributes']]
-        for attribute in instance.get_vendor_attributes():
-            if attribute.id not in attribute_ids:
-                attribute.delete()
-
+        attribute_ids = []
         for attribute in validated_data['get_vendor_attributes']:
             try:
-                attribute_obj = Attribute.objects.get(pk=attribute['id'])
+                attribute_id = attribute['id']
+            except KeyError:
+                attribute_obj = instance.create_attribute(name=attribute['name'], data_type=attribute['datatype'])
+                attribute_ids.append(attribute_obj.id)
+                continue
+            attribute_ids.append(attribute_id)
+            try:
+                attribute_obj = Attribute.objects.get(pk=attribute_id)
                 attribute_obj.name = attribute['name']
                 attribute_obj.datatype = attribute['datatype']
                 attribute_obj.save()
             except Attribute.DoesNotExist:
                 instance.create_attribute(name=attribute['name'], data_type=attribute['datatype'])
+
+        for attribute in instance.get_vendor_attributes():
+            if attribute.id not in attribute_ids:
+                attribute.delete()
         return instance
 
 

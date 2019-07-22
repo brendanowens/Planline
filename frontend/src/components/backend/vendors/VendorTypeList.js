@@ -1,10 +1,11 @@
 import React from 'react';
-import {Col, Divider, Drawer, Row, Table} from 'antd';
+import {Button, Col, Divider, Drawer, Icon, Row, Table} from 'antd';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {deleteVendorType, getVendorTypes} from "../../../actions/vendors";
 import {showDrawer, hideDrawer} from "../../../actions/drawer";
+import AddVendorTypeForm from "./VendorAddVendorType"
 
 export class VendorList extends React.Component {
     static propTypes = {
@@ -64,7 +65,16 @@ export class VendorList extends React.Component {
 
         return (
             <div>
-                <p>Vendor types are categories of vendors, each of which may have its own set of custom fields for you to
+                <Row
+                    style={{paddingBottom: '2rem'}}
+                >
+                    <Button onClick={this.props.showDrawer.bind(this, {})}>
+                        <Icon type="plus-circle"/>
+                        Add New Vendor Type
+                    </Button>
+                </Row>
+                <p>Vendor types are categories of vendors, each of which may have its own set of custom fields for you
+                    to
                     track. Click <b>View Details</b> to see the list of fields or to add additional fields.</p>
                 <Table dataSource={this.props.vendor_types} columns={this.columns} rowKey={vendor => vendor.id}/>
                 {this.props.drawer.object !== null ?
@@ -81,6 +91,7 @@ export class VendorList extends React.Component {
                         <Table pagination={false} dataSource={this.props.drawer.object.attributes}
                                columns={this.vendorTypeColumns}
                                rowKey={attribute => attribute.id} size="small"/>
+                        <AddVendorTypeForm/>
                     </Drawer>
                     : ''}
             </div>

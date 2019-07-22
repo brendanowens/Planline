@@ -21,4 +21,5 @@ urlpatterns = [
     path('leads/', include('leads.urls')),
     path('backend/', include('backend.urls')),
     path('admin/', admin.site.urls),
+    path(r'.well-known/', include('letsencrypt.urls'))
 ]
