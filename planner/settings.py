@@ -23,8 +23,7 @@ DEBUG = MODE == 'development'
 DEVELOPMENT = DEBUG
 
 if DEVELOPMENT:
-    ALLOWED_HOSTS = ['104.236.146.247', '127.0.0.1', 'localhost', 'planner.com', 'eld.planner.com',
-                     'brendan.planner.com']
+    ALLOWED_HOSTS = ['104.236.146.247', '127.0.0.1', 'localhost', 'planner.com', '.planner.com']
 
 # Application definition
 
@@ -181,6 +180,8 @@ if on_heroku:
             },
         },
     }
+
+    ALLOWED_HOSTS = ['planline.app', '.planline.app']
 
     DEBUG = False
     SECURE_SSL_REDIRECT = True
