@@ -165,25 +165,8 @@ WEBPACK_LOADER = {
 }
 
 if on_heroku:
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'handlers': {
-            'console': {
-                'class': 'logging.StreamHandler',
-            },
-        },
-        'loggers': {
-            'django': {
-                'handlers': ['console'],
-                'level': os.getenv('DJANGO_LOG_LEVEL', 'ERROR'),
-            },
-        },
-    }
-
-    ALLOWED_HOSTS = ['planline.app', '.planline.app']
-
     DEBUG = False
+    ALLOWED_HOSTS = ['.planline.app', ]
     SECURE_SSL_REDIRECT = True
     # Activate Django-Heroku without database setup.
     config = locals()
