@@ -1,9 +1,12 @@
 import React from 'react';
-import {Table} from 'antd';
+import {Button, Drawer, Icon, Row, Table} from 'antd';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {deleteVendor, getVendors} from "../../../actions/vendors";
+import {hideDrawer, showDrawer} from "../../../actions/drawer";
+import AddVendorTypeForm from "./VendorAddVendorType";
+import VendorAttributeForm from "./VendorAddVendorTypeAttribute";
 
 export class VendorList extends React.Component {
     static propTypes = {
@@ -50,13 +53,32 @@ export class VendorList extends React.Component {
 
     render() {
         return (
-            <Table dataSource={this.props.vendors} columns={this.columns} rowKey={vendor => vendor.id}/>
+            <div>
+                <Row
+                    style={{paddingBottom: '2rem'}}
+                >
+                    <Button onClick={this.props.showDrawer.bind(this, {'add_vendor': true})}>
+                        <Icon type="plus-circle"/>
+                        Add New Vendor
+                    </Button>
+                </Row>
+                <Table dataSource={this.props.vendors} columns={this.columns} rowKey={vendor => vendor.id}/>
+                <Drawer
+                    width={640}
+                    placement="right"
+                    closable={true}
+                    onClose={this.props.hideDrawer}
+                    visible={this.props.drawer.drawer_visible}
+                >
+                </Drawer>
+            </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    vendors: state.vendors.vendors
+    vendors: state.vendors.vendors,
+    drawer: state.drawer
 });
 
-export default connect(mapStateToProps, {getVendors, deleteVendor})(VendorList);
+export default connect(mapStateToProps, {getVendors, deleteVendor, showDrawer, hideDrawer})(VendorList);

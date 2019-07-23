@@ -166,6 +166,22 @@ WEBPACK_LOADER = {
 }
 
 if on_heroku:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['console'],
+                'level': os.getenv('DJANGO_LOG_LEVEL', 'ERROR'),
+            },
+        },
+    }
+
     DEBUG = False
     SECURE_SSL_REDIRECT = True
     # Activate Django-Heroku without database setup.
