@@ -36,12 +36,12 @@ const AInput = makeField(Input, formItemLayout);
 
 let VendorTypeForm = props => {
     const {handleSubmit} = props;
-    return (<form onSubmit={handleSubmit}>
+    return (<Form onSubmit={handleSubmit}>
         <Field label="Vendor Type Name" name="name" component={AInput} type="text"/>
         <FormItem {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">Save</Button>
+            <Button type="primary" htmlType="submit">Add Vendor Type</Button>
         </FormItem>
-    </form>)
+    </Form>)
 };
 
 VendorTypeForm = reduxForm({

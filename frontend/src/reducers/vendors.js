@@ -4,7 +4,8 @@ import {
     DELETE_VENDOR,
     GET_VENDOR_TYPES,
     DELETE_VENDOR_TYPE,
-    ADD_VENDOR_TYPE
+    ADD_VENDOR_TYPE,
+    UPDATE_VENDOR_TYPE
 } from "../actions/types";
 
 const initialState = {
@@ -43,6 +44,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 vendor_types: [...state.vendor_types, action.payload]
+            };
+        case UPDATE_VENDOR_TYPE:
+            return {
+                ...state,
+                vendor_types: [...state.vendor_types.filter(vendor_type => vendor_type.id !== action.payload.id), action.payload]
             };
         default:
             return state

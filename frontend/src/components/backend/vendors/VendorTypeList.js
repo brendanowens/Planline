@@ -1,11 +1,12 @@
 import React from 'react';
-import {Button, Col, Divider, Drawer, Icon, Row, Table} from 'antd';
+import {Button, Col, Divider, Drawer, Form, Icon, Input, Row, Table} from 'antd';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {deleteVendorType, getVendorTypes} from "../../../actions/vendors";
 import {showDrawer, hideDrawer} from "../../../actions/drawer";
 import AddVendorTypeForm from "./VendorAddVendorType"
+import VendorAttributeForm from "./VendorAddVendorTypeAttribute"
 
 export class VendorList extends React.Component {
     static propTypes = {
@@ -62,13 +63,12 @@ export class VendorList extends React.Component {
     ];
 
     render() {
-
         return (
             <div>
                 <Row
                     style={{paddingBottom: '2rem'}}
                 >
-                    <Button onClick={this.props.showDrawer.bind(this, {})}>
+                    <Button onClick={this.props.showDrawer.bind(this, {'add_vendor_type': true})}>
                         <Icon type="plus-circle"/>
                         Add New Vendor Type
                     </Button>
@@ -85,13 +85,28 @@ export class VendorList extends React.Component {
                         onClose={this.props.hideDrawer}
                         visible={this.props.drawer.drawer_visible}
                     >
-                        <Row>
-                            <h1>{this.props.drawer.object.name}</h1>
-                        </Row>
-                        <Table pagination={false} dataSource={this.props.drawer.object.attributes}
-                               columns={this.vendorTypeColumns}
-                               rowKey={attribute => attribute.id} size="small"/>
-                        <AddVendorTypeForm/>
+                        {this.props.drawer.object.add_vendor_type === true ?
+                            <div>
+                                <h1>Add New Vendor Type</h1>
+                                <p>Enter an identifying name for a category of vendor. Example categories
+                                    include <i>caterer</i>, <i>photographer</i>, or <i>venue</i>.</p>
+                                <AddVendorTypeForm/>
+                            </div>
+                            :
+                            <div>
+                                <Row>
+                                    <h1>{this.props.drawer.object.name}</h1>
+                                </Row>
+                                <Table pagination={false} dataSource={this.props.drawer.object.attributes}
+                                       columns={this.vendorTypeColumns}
+                                       rowKey={attribute => attribute.id} size="small"/>
+                                <Row
+                                    style={{paddingTop: '2rem'}}
+                                >
+                                    <VendorAttributeForm/>
+                                </Row>
+                            </div>
+                        }
                     </Drawer>
                     : ''}
             </div>

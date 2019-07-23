@@ -166,7 +166,8 @@ WEBPACK_LOADER = {
 }
 
 if on_heroku:
-    # DEBUG = False
+    DEBUG = False
+    SECURE_SSL_REDIRECT = True
     # Activate Django-Heroku without database setup.
     config = locals()
     django_heroku.settings(config, databases=False)

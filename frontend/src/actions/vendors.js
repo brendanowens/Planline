@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_VENDORS, DELETE_VENDOR, ADD_VENDOR, GET_VENDOR_TYPES, DELETE_VENDOR_TYPE, ADD_VENDOR_TYPE} from "./types";
+import {GET_VENDORS, DELETE_VENDOR, ADD_VENDOR, GET_VENDOR_TYPES, DELETE_VENDOR_TYPE, ADD_VENDOR_TYPE, UPDATE_VENDOR_TYPE} from "./types";
 import {createMessage, returnErrors} from './messages';
 import {tokenConfig} from "./auth";
 
@@ -63,6 +63,18 @@ export const addVendorType = (vendor) => (dispatch, getState) => {
             dispatch(createMessage({addVendor: "Vendor type added"}));
             dispatch({
                 type: ADD_VENDOR_TYPE,
+                payload: res.data
+            })
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+};
+
+export const updateVendorType = (vendor) => (dispatch, getState) => {
+    axios.put(`/backend/api/vendor-types/${vendor.id}/`, vendor, tokenConfig(getState))
+        .then(res => {
+            dispatch(createMessage({addVendor: "Vendor type added"}));
+            dispatch({
+                type: UPDATE_VENDOR_TYPE,
                 payload: res.data
             })
         })
