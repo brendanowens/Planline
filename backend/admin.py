@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from backend.models import PlannerClientConfig, Vendor, Address, VendorContact, VendorType, Project, ProjectContact
 from solo.admin import SingletonModelAdmin
 from eav.forms import BaseDynamicEntityForm

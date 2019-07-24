@@ -11,14 +11,9 @@ import VendorAttributeForm from "./VendorAddVendorTypeAttribute"
 export class VendorList extends React.Component {
     static propTypes = {
         vendor_types: PropTypes.array.isRequired,
-        getVendorTypes: PropTypes.func.isRequired,
         deleteVendorType: PropTypes.func.isRequired,
         showDrawer: PropTypes.func.isRequired,
         hideDrawer: PropTypes.func.isRequired,
-    };
-
-    componentDidMount() {
-        this.props.getVendorTypes();
     };
 
 
@@ -119,4 +114,4 @@ const mapStateToProps = state => ({
     drawer: state.drawer
 });
 
-export default connect(mapStateToProps, {getVendorTypes, deleteVendorType, showDrawer, hideDrawer})(VendorList);
+export default connect(mapStateToProps, {deleteVendorType, showDrawer, hideDrawer})(VendorList);

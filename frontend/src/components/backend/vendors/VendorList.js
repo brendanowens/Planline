@@ -7,6 +7,7 @@ import {deleteVendor, getVendors} from "../../../actions/vendors";
 import {hideDrawer, showDrawer} from "../../../actions/drawer";
 import AddVendorTypeForm from "./VendorAddVendorType";
 import VendorAttributeForm from "./VendorAddVendorTypeAttribute";
+import VendorAdd from "./VendorAdd";
 
 export class VendorList extends React.Component {
     static propTypes = {
@@ -70,6 +71,11 @@ export class VendorList extends React.Component {
                     onClose={this.props.hideDrawer}
                     visible={this.props.drawer.drawer_visible}
                 >
+                    <h1>Add New Vendor</h1>
+                    <p>Keep track of new or potential vendors by adding some general information about them. Once you
+                        get some of this basic info entered, you'll be able to track additional info, such as vendor
+                        contacts as custom attributes.</p>
+                    <VendorAdd/>
                 </Drawer>
             </div>
         );

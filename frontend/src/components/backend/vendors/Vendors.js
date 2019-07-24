@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {Link, Switch} from 'react-router-dom';
 
 import {Layout, Breadcrumb} from 'antd';
-import {deleteVendor, getVendors} from "../../../actions/vendors";
+import {deleteVendor, getVendors, getVendorTypes} from "../../../actions/vendors";
 import PrivateRoute from "../../common/PrivateRoute";
 import {Route} from "react-router-dom";
 import VendorList from "./VendorList";
@@ -25,11 +25,13 @@ export class Vendors extends React.Component {
     static propTypes = {
         vendors: PropTypes.array.isRequired,
         getVendors: PropTypes.func.isRequired,
+        getVendorTypes: PropTypes.func.isRequired,
         deleteVendor: PropTypes.func.isRequired
     };
 
     componentDidMount() {
         this.props.getVendors();
+        this.props.getVendorTypes();
     };
 
     columns = [
@@ -75,7 +77,7 @@ export class Vendors extends React.Component {
                                 <Link to="/vendors/all/"/>
                             </Menu.Item>
                             <Menu.Item key="2">
-                                <Icon type="tags" />
+                                <Icon type="tags"/>
                                 <span>Vendor Types</span>
                                 <Link to="/vendors/types/"/>
                             </Menu.Item>
@@ -118,4 +120,4 @@ const mapStateToProps = state => ({
     vendors: state.vendors.vendors
 });
 
-export default connect(mapStateToProps, {getVendors, deleteVendor})(Vendors);
+export default connect(mapStateToProps, {getVendors, deleteVendor, getVendorTypes})(Vendors);

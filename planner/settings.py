@@ -164,9 +164,12 @@ WEBPACK_LOADER = {
     }
 }
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 if on_heroku:
     # DEBUG = False
-    # ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['*']
     SECURE_SSL_REDIRECT = True
     # Activate Django-Heroku without database setup.
     config = locals()

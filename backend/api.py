@@ -57,7 +57,7 @@ class UserAPI(generics.RetrieveAPIView):
 # PlannerClientConfig ViewSet
 class PlannerClientConfigViewSet(viewsets.ModelViewSet):
     permission_classes = [
-        permissions.IsAuthenticated
+        permissions.IsAuthenticatedOrReadOnly
     ]
     serializer_class = PlannerClientConfigSerializer
 

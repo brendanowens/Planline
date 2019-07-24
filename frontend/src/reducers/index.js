@@ -7,6 +7,7 @@ import auth from './auth';
 import vendors from './vendors';
 import drawer from './drawer';
 import projects from './projects';
+import organization from './organization';
 
 export default combineReducers({
     leads,
@@ -16,5 +17,6 @@ export default combineReducers({
     vendors,
     drawer,
     projects,
+    organization,
     form: reduxFormReducer,
 })

@@ -6,6 +6,7 @@ import {login} from "../../../actions/auth";
 import {makeField} from "../../common/makeField";
 import {Button, Form, Input, Row, Col, Card, Layout} from "antd";
 import {Field, reduxForm} from "redux-form";
+import {getOrgSettings} from "../../../actions/organization";
 
 const FormItem = Form.Item;
 
@@ -37,11 +38,14 @@ const AInput = makeField(Input, formItemLayout);
 
 let LoginForm = props => {
     const {handleSubmit} = props;
+    const {organization} = props;
     return (
         <div>
             <Row>
                 <Col xs={20} sm={16} md={12} lg={{span: 6, offset: 9}}>
-                    <Card style={{marginTop: 40}}>
+                    <Card style={{marginTop: 40}}
+                          cover={<img alt="logo" src={organization.logo}/>}
+                    >
                         <form onSubmit={handleSubmit}>
                             <Field label="Username" name="username" component={AInput} type="text"/>
                             <Field label="Password" name="password" component={AInput} type="password"/>
@@ -65,7 +69,12 @@ class ExportLoginForm extends Component {
 
     static propTypes = {
         login: PropTypes.func.isRequired,
-        isAuthenticated: PropTypes.bool
+        isAuthenticated: PropTypes.bool,
+        getOrgSettings: PropTypes.func.isRequired
+    };
+
+    componentDidMount() {
+        this.props.getOrgSettings();
     };
 
 
@@ -78,15 +87,17 @@ class ExportLoginForm extends Component {
     };
 
     render() {
+        console.log(this.props);
         if (this.props.isAuthenticated) {
             return <Redirect to="/"/>
         }
-        return <LoginForm onSubmit={this.submit}/>
+        return <LoginForm onSubmit={this.submit} organization={this.props.organization}/>
     }
 }
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    organization: state.organization.organization
 });
 
-export default connect(mapStateToProps, {login})(ExportLoginForm)
+export default connect(mapStateToProps, {login, getOrgSettings})(ExportLoginForm)

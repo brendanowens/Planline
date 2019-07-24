@@ -17,6 +17,7 @@ class PlannerClientConfig(SingletonModel):
     primary_color = models.CharField(max_length=7, default="#38513E")
     secondary_color = models.CharField(max_length=7, default="#01101E")
     favicon = models.ImageField(null=True)
+    logo = models.ImageField(null=True)
 
     def __unicode__(self):
         return u"Site Configuration"
@@ -111,6 +112,7 @@ class Vendor(models.Model):
     name = models.CharField(max_length=50, null=True)
     type = models.ForeignKey(VendorType, on_delete=models.SET_NULL, null=True)
     address = models.ForeignKey(Address, models.PROTECT, null=True)
+    general_notes = models.TextField(max_length=2000, null=True, blank=True)
 
     def __str__(self):
         return self.name

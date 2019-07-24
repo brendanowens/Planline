@@ -27,7 +27,6 @@ export class MyHeader extends React.Component {
 
         return (
             <Header className="header">
-                <div className="logo"/>
                 <Menu
                     theme="dark"
                     mode="horizontal"
