@@ -47,8 +47,21 @@ export class VendorList extends React.Component {
             title: '',
             // key: 'id',
             render: (vendor) => (
-                <a>View Details</a>
+                <a onClick={this.props.showDrawer.bind(this, vendor)}>View Details</a>
             ),
+        },
+    ];
+
+    attributeValueColumns = [
+        {
+            title: 'Field',
+            dataIndex: 'attribute.name',
+            key: 'attribute.id',
+        },
+        {
+            title: 'Value',
+            dataIndex: 'value',
+            key: 'id',
         },
     ];
 
@@ -64,19 +77,50 @@ export class VendorList extends React.Component {
                     </Button>
                 </Row>
                 <Table dataSource={this.props.vendors} columns={this.columns} rowKey={vendor => vendor.id}/>
-                <Drawer
-                    width={640}
-                    placement="right"
-                    closable={true}
-                    onClose={this.props.hideDrawer}
-                    visible={this.props.drawer.drawer_visible}
-                >
-                    <h1>Add New Vendor</h1>
-                    <p>Keep track of new or potential vendors by adding some general information about them. Once you
-                        get some of this basic info entered, you'll be able to track additional info, such as vendor
-                        contacts as custom attributes.</p>
-                    <VendorAdd/>
-                </Drawer>
+                {this.props.drawer.object !== null ?
+                    <Drawer
+                        width={640}
+                        placement="right"
+                        closable={true}
+                        onClose={this.props.hideDrawer}
+                        visible={this.props.drawer.drawer_visible}
+                    >
+                        {this.props.drawer.object.add_vendor === true ?
+                            <div>
+                                <h1>Add New Vendor</h1>
+                                <p>Keep track of new or potential vendors by adding some general information about them.
+                                    Once
+                                    you
+                                    get some of this basic info entered, you'll be able to track additional info, such
+                                    as
+                                    vendor
+                                    contacts as custom attributes.</p>
+                                <VendorAdd/>
+                            </div>
+                            :
+                            <div>
+                                <h1>{this.props.drawer.object.name}</h1>
+                                <table>
+                                    <tr>
+                                        <td>Type</td>
+                                        <td>{this.props.drawer.object.type.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address</td>
+                                        <td>{this.props.drawer.object.address.full_address}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>General Notes</td>
+                                        <td>{this.props.drawer.object.general_notes}</td>
+                                    </tr>
+                                </table>
+                                <Table columns={this.attributeValueColumns}
+                                       dataSource={this.props.drawer.object.attribute_values}/>
+                            </div>
+                        }
+                    </Drawer>
+                    : ''
+                }
             </div>
         );
     }

@@ -46,7 +46,7 @@ class PlannerClientConfigSerializer(serializers.ModelSerializer):
 
 
 class AddressSerializer(serializers.ModelSerializer):
-    full_address = serializers.CharField(source='__str__')
+    full_address = serializers.CharField(source='__str__', read_only=True)
 
     class Meta:
         model = Address
@@ -124,15 +124,37 @@ class VendorTypeSerializer(serializers.ModelSerializer):
 
 
 class VendorSerializer(serializers.ModelSerializer):
-    vendor_contacts = ContactSerializer(many=True)
-    type = VendorTypeSerializer()
+    vendor_contacts = ContactSerializer(many=True, required=False)
+    type = VendorTypeSerializer(required=False)
+    type_id = serializers.PrimaryKeyRelatedField(required=False, queryset=VendorType.objects.all())
     address = AddressSerializer()
-    attributes = AttributeSerializer(many=True, source='get_vendor_attributes')
-    attribute_values = AttributeValueSerializer(many=True, source='get_attribute_values')
+    attributes = AttributeSerializer(many=True, source='get_vendor_attributes', required=False)
+    attribute_values = AttributeValueSerializer(many=True, source='get_attribute_values', required=False)
 
     class Meta:
         model = Vendor
         fields = '__all__'
+
+    def create(self, validated_data):
+        # Does not create vendor contacts
+        # Does not create attributes or attribute values
+        address_dict = validated_data.pop('address')
+        address, created = Address.objects.get_or_create(address_line_1=address_dict.pop('address_line_1'),
+                                                         address_line_2=address_dict.pop('address_line_2', None),
+                                                         city=address_dict.pop('city'),
+                                                         state=address_dict.pop('state'),
+                                                         country=address_dict.pop('country')
+                                                         )
+        vendor_type = validated_data["type_id"]
+        vendor = Vendor.objects.create(name=validated_data.pop('name'), address=address, type=vendor_type,
+                                       general_notes=validated_data.pop('general_notes', None))
+        # if validated_data["type"] is not None:
+        #     vendor_type = self.type.create(validated_data["type"])
+        #     vendor.type = vendor_type
+        # elif validated_data["type_id"] is not None:
+        #     vendor.type = VendorType.objects.get(pk=validated_data["type_id"])
+        # vendor.save()
+        return vendor
 
 
 class ProjectContactSerializer(serializers.ModelSerializer):

@@ -42,8 +42,8 @@ let VendorForm = props => {
     const {handleSubmit} = props;
     const {vendor_types} = props;
     return (<Form onSubmit={handleSubmit}>
-        <Field label="Vendor Name" name="name" component={AInput} type="text"/>
-        <Field label="Type" name="type" component={ASelect}>
+        <Field label="Vendor Name *" name="name" component={AInput} type="text"/>
+        <Field label="Type *" name="type_id" component={ASelect}>
             <Select.Option value="" disabled>-</Select.Option>
             {vendor_types.map(type => {
                 return (
@@ -55,11 +55,11 @@ let VendorForm = props => {
                 );
             })}
         </Field>
-        <Field label="Address Line 1" name="address_line_1" component={AInput} type="text"/>
-        <Field label="Address Line 2" name="address_line_2" component={AInput} type="text"/>
-        <Field label="City" name="address_city" component={AInput} type="text"/>
-        <Field label="State" name="address_state" component={AInput} type="text"/>
-        <Field label="Country" name="address_country" component={AInput} type="text"/>
+        <Field label="Address Line 1 *" name="address.address_line_1" component={AInput} type="text"/>
+        <Field label="Address Line 2" name="address.address_line_2" component={AInput} type="text"/>
+        <Field label="City *" name="address.city" component={AInput} type="text"/>
+        <Field label="State *" name="address.state" component={AInput} type="text"/>
+        <Field label="Country *" name="address.country" component={AInput} type="text"/>
         <Field label="General Notes" name="general_notes" component={ATextArea} type="textarea"/>
         <FormItem {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">Add Vendor</Button>
@@ -78,7 +78,6 @@ class ExportVendorForm extends React.Component {
     };
 
     submit = values => {
-        values.attributes = [];
         this.props.addVendor(values);
         this.setState({
             name: "",
