@@ -15,10 +15,10 @@ export const getOrgSettings = () => (dispatch, getState) => {
 };
 
 // UPDATE ORG SETTINGS
-export const updateOrgSettings = (id) => (dispatch, getState) => {
-    axios.delete(`/leads/api/leads/${id}/`, tokenConfig(getState))
+export const updateOrgSettings = (org_settings) => (dispatch, getState) => {
+    axios.put(`/backend/api/config/1/`, org_settings, tokenConfig(getState))
         .then(res => {
-            dispatch(createMessage({deleteLead: "Lead deleted"}));
+            dispatch(createMessage({deleteLead: "Org settings updated"}));
             dispatch({
                 type: UPDATE_ORG_SETTINGS,
                 payload: id

@@ -10,18 +10,17 @@ import PrivateRoute from "../../common/PrivateRoute";
 import {Route} from "react-router-dom";
 import OrganizationSettings from "./OrganizationSettings";
 import OrganizationUsers from "./OrganizationUsers";
+import {getOrgSettings} from "../../../actions/organization";
 
 const {Content, Sider} = Layout;
 
 export class Organization extends React.Component {
     static propTypes = {
-        vendors: PropTypes.array.isRequired,
-        getVendors: PropTypes.func.isRequired,
-        deleteVendor: PropTypes.func.isRequired
+        getOrgSettings: PropTypes.func.isRequired
     };
 
     componentDidMount() {
-        this.props.getVendors();
+        this.props.getOrgSettings();
     };
 
 
@@ -77,7 +76,7 @@ export class Organization extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    vendors: state.vendors.vendors
+    // vendors: state.vendors.vendors
 });
 
-export default connect(mapStateToProps, {getVendors, deleteVendor})(Organization);
+export default connect(mapStateToProps, {getOrgSettings})(Organization);
