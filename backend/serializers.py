@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
 # User Serializer
-from backend.models import PlannerClientConfig, Vendor, VendorType, Address, Contact, Project, ProjectContact
+from backend.models import PlannerClientConfig, Vendor, VendorType, Address, Contact, Project, ProjectContact, \
+    TaskCategory, ProjectTemplate, Task, TemplateTask, ProjectTask
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -166,10 +167,47 @@ class ProjectContactSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TaskCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskCategory
+        fields = '__all__'
+
+
+class ProjectTemplateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectTemplate
+        fields = '__all__'
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    due_date = serializers.CharField()
+    category = TaskCategorySerializer()
+
+    class Meta:
+        model = Task
+        fields = '__all__'
+
+
+class TemplateTaskSerializer(TaskSerializer):
+    class Meta:
+        model = TemplateTask
+        fields = '__all__'
+
+
+class ProjectTaskSerializer(TaskSerializer):
+    vendor_attachments = VendorSerializer(many=True, read_only=True)
+    days_before_event_display = serializers.CharField()
+
+    class Meta:
+        model = ProjectTask
+        fields = '__all__'
+
+
 class ProjectSerializer(serializers.ModelSerializer):
     completed_display = serializers.ReadOnlyField()
     days_until_completion = serializers.ReadOnlyField()
     contact_list = ProjectContactSerializer(read_only=True, many=True)
+    tasks = ProjectTaskSerializer(many=True, source='projecttask_set')
 
     class Meta:
         model = Project

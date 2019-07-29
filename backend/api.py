@@ -3,10 +3,12 @@ from rest_framework import generics, permissions, viewsets
 from rest_framework.response import Response
 from knox.models import AuthToken
 
-from backend.models import PlannerClientConfig, Vendor, VendorType, Project, ProjectContact
+from backend.models import PlannerClientConfig, Vendor, VendorType, Project, ProjectContact, TaskCategory, \
+    ProjectTemplate, Task, TemplateTask, ProjectTask
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, PlannerClientConfigSerializer, \
     VendorSerializer, AttributeSerializer, AttributeValueSerializer, VendorTypeSerializer, ProjectSerializer, \
-    ProjectContactSerializer
+    ProjectContactSerializer, ProjectTaskSerializer, TemplateTaskSerializer, TaskSerializer, ProjectTemplateSerializer, \
+    TaskCategorySerializer
 
 
 # Register API
@@ -127,3 +129,53 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Project.objects.all()
+
+
+class TaskCategoryViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    serializer_class = TaskCategorySerializer
+
+    def get_queryset(self):
+        return TaskCategory.objects.all()
+
+
+class ProjectTemplateViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    serializer_class = ProjectTemplateSerializer
+
+    def get_queryset(self):
+        return ProjectTemplate.objects.all()
+
+
+class TaskViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    serializer_class = TaskSerializer
+
+    def get_queryset(self):
+        return Task.objects.all()
+
+
+class TemplateTaskViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    serializer_class = TemplateTaskSerializer
+
+    def get_queryset(self):
+        return TemplateTask.objects.all()
+
+
+class ProjectTaskViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    serializer_class = ProjectTaskSerializer
+
+    def get_queryset(self):
+        return ProjectTask.objects.all()

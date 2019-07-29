@@ -82,7 +82,7 @@ export class ProjectList extends Component {
                                    rowKey={project => project.id}/>
                             {this.props.drawer.object !== null ?
                                 <Drawer
-                                    width={840}
+                                    width={640}
                                     placement="right"
                                     closable={true}
                                     onClose={this.props.hideDrawer}

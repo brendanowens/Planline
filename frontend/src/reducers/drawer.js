@@ -16,7 +16,8 @@ export default function (state = initialState, action) {
         case HIDE_DRAWER:
             return {
                 ...state,
-                drawer_visible: false
+                drawer_visible: false,
+                object: null
             };
         default:
             return state

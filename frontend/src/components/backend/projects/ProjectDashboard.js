@@ -17,6 +17,7 @@ import ProjectDashboardDayOfTimeline from "./ProjectDashboardDayOfTimeline";
 import ProjectDashboardInvoices from "./ProjectDashboardInvoices";
 import ProjectDashboardMessaging from "./ProjectDashboardMessaging";
 import ProjectDashboardSeating from "./ProjectDashboardSeating";
+import {ProjectDashboardVendors} from "./ProjectDashboardVendors";
 
 const {Content, Sider} = Layout;
 
@@ -84,6 +85,11 @@ export class ProjectDashboard extends React.Component {
                                 <span>Contracts</span>
                                 <Link to={`/projects/dashboard/${this.props.match.params.id}/contracts/`}/>
                             </Menu.Item>
+                            <Menu.Item key="10">
+                                <Icon type="shop"/>
+                                <span>Vendors</span>
+                                <Link to={`/projects/dashboard/${this.props.match.params.id}/vendors/`}/>
+                            </Menu.Item>
                         </Menu>
                     </Sider>
                     <Layout style={{padding: '0 24px 24px'}}>
@@ -121,6 +127,8 @@ export class ProjectDashboard extends React.Component {
                                               component={ProjectDashboardInvoices}/>
                                 <PrivateRoute path={`/projects/dashboard/:id/contracts/`}
                                               component={ProjectDashboardContracts}/>
+                                <PrivateRoute path={`/projects/dashboard/:id/vendors/`}
+                                              component={ProjectDashboardVendors}/>
 
                             </Switch>
                         </Content>

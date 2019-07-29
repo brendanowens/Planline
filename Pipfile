@@ -27,6 +27,7 @@ drf-keyed-list = "*"
 django-heroku = "*"
 gunicorn = "*"
 django-letsencrypt = "*"
+django-gm2m = "*"
 
 [requires]
 python_version = "3.6"

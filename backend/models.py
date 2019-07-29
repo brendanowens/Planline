@@ -1,4 +1,5 @@
-import eav
+import math
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
@@ -6,10 +7,16 @@ from django.utils.text import slugify
 from django_countries.fields import CountryField
 from eav.decorators import register_eav
 from eav.models import Attribute
-from eav.registry import EavConfig
 from polymorphic.models import PolymorphicModel
 from solo.models import SingletonModel
 from phone_field import PhoneField
+from gm2m import GM2MField as gm2m_field
+
+
+# due to a bug in django-gm2m, see https://github.com/tkhyn/django-gm2m/issues/43
+class GM2MField(gm2m_field):
+    def get_limit_choices_to(self):
+        pass
 
 
 class PlannerClientConfig(SingletonModel):
@@ -43,6 +50,9 @@ class Project(models.Model):
     name = models.CharField(max_length=50)
     expected_completion_date = models.DateField()
     completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
 
     def completed_display(self):
         return str(self.completed)
@@ -114,6 +124,8 @@ class Vendor(models.Model):
     address = models.ForeignKey(Address, models.PROTECT, null=True)
     general_notes = models.TextField(max_length=2000, null=True, blank=True)
 
+    # TODO add image field (probably needs to be private)
+
     def __str__(self):
         return self.name
 
@@ -137,3 +149,63 @@ class Vendor(models.Model):
 
 class VendorContact(Contact):
     vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True, related_name='vendor_contacts')
+
+
+class TaskCategory(models.Model):
+    name = models.CharField(max_length=75, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class ProjectTemplate(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
+class Task(models.Model):
+    name = models.CharField(max_length=200, null=True)
+    days_before_event = models.IntegerField()
+    category = models.ForeignKey(TaskCategory, on_delete=models.SET_NULL, null=True)
+    # TODO add assignee (could be client or coworker)
+    visible_to_client = models.BooleanField()
+    note = models.TextField(max_length=500, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def days_before_event_display(self):
+        if self.days_before_event > 31:
+            return str(int(math.ceil(self.days_before_event / 30.5))) + ' months'
+        else:
+            return str(self.days_before_event) + ' days'
+
+
+class TemplateTask(Task):
+    template = models.ForeignKey(ProjectTemplate, on_delete=models.PROTECT)
+
+
+class ProjectTask(Task):
+    complete = models.BooleanField(default=False)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    vendor_attachments = models.ManyToManyField(Vendor, blank=True)
+
+    # TODO add contact_attachments field
+    # TODO add invoice_attachments field
+
+    @classmethod
+    def create_from_task(cls, task, project):
+        task.pk = None
+        task_copy = task.save()
+        project_task = cls(task_ptr_id=task_copy.pk)
+        project_task.__dict__.update(task_copy.__dict__)
+        project_task.project = project
+        project_task.save()
+        return project_task
+
+    @property
+    def due_date(self):
+        return self.project.expected_completion_date - timezone.timedelta(days=self.days_before_event)
