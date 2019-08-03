@@ -8,6 +8,7 @@ import vendors from './vendors';
 import drawer from './drawer';
 import projects from './projects';
 import organization from './organization';
+import tasks from './tasks';
 
 export default combineReducers({
     leads,
@@ -18,5 +19,6 @@ export default combineReducers({
     drawer,
     projects,
     organization,
+    tasks,
     form: reduxFormReducer,
 })

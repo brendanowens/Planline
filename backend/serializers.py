@@ -1,3 +1,4 @@
+from drf_keyed_list import KeyedListSerializer
 from eav.models import Attribute, Value
 from rest_framework import serializers
 from django.contrib.auth.models import User
@@ -180,8 +181,10 @@ class ProjectTemplateSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    due_date = serializers.CharField()
-    category = TaskCategorySerializer()
+    due_date = serializers.CharField(read_only=True)
+    category = serializers.PrimaryKeyRelatedField(queryset=TaskCategory.objects.all())
+    category_object = TaskCategorySerializer(read_only=True, source='category')
+    visible_to_client = serializers.BooleanField(default=False)
 
     class Meta:
         model = Task
@@ -196,11 +199,15 @@ class TemplateTaskSerializer(TaskSerializer):
 
 class ProjectTaskSerializer(TaskSerializer):
     vendor_attachments = VendorSerializer(many=True, read_only=True)
-    days_before_event_display = serializers.CharField()
+    days_before_event_display = serializers.CharField(read_only=True)
+    # filter_backends = (DjangoFilterBackend,)
+    # filter_fields = ('project__id',)
 
     class Meta:
         model = ProjectTask
         fields = '__all__'
+        # list_serializer_class = KeyedListSerializer
+        # keyed_list_serializer_field = 'id'
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -212,3 +219,9 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = '__all__'
+        # list_serializer_class = KeyedListSerializer
+        # keyed_list_serializer_field = 'id'
+
+    # def to_representation(self, data):
+    #     res = super(ProjectSerializer, self).to_representation(data)
+    #     return {res['id']: res}

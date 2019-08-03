@@ -33,21 +33,21 @@ export class MyHeader extends React.Component {
                     defaultSelectedKeys={['1']}
                     style={{lineHeight: '64px'}}
                 >
-                    <Menu.Item key="1">
-                        <Icon type="unordered-list"/>
-                        <span>Master Timeline</span>
-                        <Link to={'/'}/>
-                    </Menu.Item>
+                    {/*<Menu.Item key="1">*/}
+                    {/*    <Icon type="unordered-list"/>*/}
+                    {/*    <span>Master Timeline</span>*/}
+                    {/*    <Link to={'/'}/>*/}
+                    {/*</Menu.Item>*/}
                     <Menu.Item key="2">
                         <Icon type="solution"/>
                         <span>Projects</span>
                         <Link to={'/projects'}/>
                     </Menu.Item>
-                    <Menu.Item key="3">
-                        <Icon type="team"/>
-                        <span>Clients</span>
-                        <Link to={'/'}/>
-                    </Menu.Item>
+                    {/*<Menu.Item key="3">*/}
+                    {/*    <Icon type="team"/>*/}
+                    {/*    <span>Clients</span>*/}
+                    {/*    <Link to={'/'}/>*/}
+                    {/*</Menu.Item>*/}
                     <Menu.Item key="4">
                         <Icon type="shop"/>
                         <span>Vendors</span>

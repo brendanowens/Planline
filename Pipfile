@@ -28,6 +28,7 @@ django-heroku = "*"
 gunicorn = "*"
 django-letsencrypt = "*"
 django-gm2m = "*"
+django-filter = "*"
 
 [requires]
 python_version = "3.6"

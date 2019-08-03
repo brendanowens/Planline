@@ -173,6 +173,9 @@ class Task(models.Model):
     visible_to_client = models.BooleanField()
     note = models.TextField(max_length=500, blank=True, null=True)
 
+    class Meta:
+        ordering = ['-days_before_event']
+
     def __str__(self):
         return self.name
 

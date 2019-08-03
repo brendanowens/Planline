@@ -12,6 +12,7 @@ import ProjectList from "./ProjectList";
 import ProjectAdd from "./ProjectAdd";
 import ProjectDashboard from "./ProjectDashboard";
 
+
 const {Content, Sider} = Layout;
 
 export class Projects extends React.Component {
@@ -71,7 +72,7 @@ export class Projects extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    projects: state.projects.projects
+    projects: state.projects.projects,
 });
 
 export default connect(mapStateToProps, {getProjects, deleteProject})(Projects);

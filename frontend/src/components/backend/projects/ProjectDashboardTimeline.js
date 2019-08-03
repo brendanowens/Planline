@@ -4,8 +4,20 @@ import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import {Button, Checkbox, Drawer, Icon, List, Row, Select, Skeleton, Table} from "antd";
 import VendorAdd from "../vendors/VendorAdd";
 import {hideDrawer, showDrawer} from "../../../actions/drawer";
+import ProjectDashboardAddTask from "./ProjectDashboardAddTask";
+import PropTypes from "prop-types";
+import {getTaskCategories} from "../../../actions/tasks";
 
 export class ProjectDashboardTimeline extends React.Component {
+    static propTypes = {
+        task_categories: PropTypes.array,
+        getTaskCategories: PropTypes.func,
+    };
+
+    componentDidMount() {
+        this.props.getTaskCategories();
+    };
+
     render() {
         return (
             <div>
@@ -47,7 +59,7 @@ export class ProjectDashboardTimeline extends React.Component {
                                                                 <Skeleton loading={false} active>
                                                                     <List.Item.Meta
                                                                         title={task.name}
-                                                                        description={task.category.name}
+                                                                        description={task.category_object.name}
                                                                     />
                                                                 </Skeleton>
                                                             </List.Item>
@@ -72,9 +84,7 @@ export class ProjectDashboardTimeline extends React.Component {
                         visible={this.props.drawer.drawer_visible}
                     >
                         {this.props.drawer.object.add_task === true ?
-                            <div>
-                                <h1>Add New Task</h1>
-                            </div>
+                            <ProjectDashboardAddTask project={this.props.project}/>
                             :
                             <div>
                                 <h1>{this.props.drawer.object.name}</h1>
@@ -90,7 +100,8 @@ export class ProjectDashboardTimeline extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
     project: state.projects.projects.filter(project => project.id === parseInt(ownProps.match.params.id))[0],
-    drawer: state.drawer
+    drawer: state.drawer,
+    task_categories: state.tasks.task_categories
 });
 
-export default connect(mapStateToProps, {showDrawer, hideDrawer})(ProjectDashboardTimeline);
+export default connect(mapStateToProps, {showDrawer, hideDrawer, getTaskCategories})(ProjectDashboardTimeline);

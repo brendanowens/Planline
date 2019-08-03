@@ -47,8 +47,8 @@ export class ProjectDashboard extends React.Component {
                             </Menu.Item>
                             <Menu.Item key="2">
                                 <Icon type="unordered-list"/>
-                                <span>Timeline</span>
-                                <Link to={`/projects/dashboard/${this.props.match.params.id}/timeline/`}/>
+                                <span>Tasks</span>
+                                <Link to={`/projects/dashboard/${this.props.match.params.id}/tasks/`}/>
                             </Menu.Item>
                             <Menu.Item key="3">
                                 <Icon type="calendar"/>
@@ -111,7 +111,7 @@ export class ProjectDashboard extends React.Component {
                             <PrivateRoute exact path={`/projects/dashboard/:id`}
                                           component={ProjectDashboardDashboard}/>
                             <Switch>
-                                <PrivateRoute path={`/projects/dashboard/:id/timeline/`}
+                                <PrivateRoute path={`/projects/dashboard/:id/tasks/`}
                                               component={ProjectDashboardTimeline}/>
                                 <PrivateRoute path={`/projects/dashboard/:id/calendar/`}
                                               component={ProjectDashboardCalendar}/>
