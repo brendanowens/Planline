@@ -75,7 +75,7 @@ class Project(models.Model):
 
 
 class ProjectContact(Contact):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     projects = models.ManyToManyField(Project, related_name='contact_list')
 
     def __str__(self):
