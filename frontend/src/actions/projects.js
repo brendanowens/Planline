@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_PROJECTS, DELETE_PROJECT, ADD_PROJECT} from "./types";
+import {GET_PROJECTS, DELETE_PROJECT, ADD_PROJECT, ADD_PROJECT_TASK, DELETE_PROJECT_TASK} from "./types";
 import {createMessage, returnErrors} from './messages';
 import {tokenConfig} from "./auth";
 
@@ -31,6 +31,30 @@ export const addProject = (project) => (dispatch, getState) => {
             dispatch({
                 type: ADD_PROJECT,
                 payload: res.data
+            })
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+};
+
+export const addProjectTask = (project_task) => (dispatch, getState) => {
+    axios.post('/backend/api/project-tasks/', project_task, tokenConfig(getState))
+        .then(res => {
+            dispatch(createMessage({addProject: "Project task added"}));
+            dispatch({
+                type: ADD_PROJECT_TASK,
+                payload: res.data
+            })
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+};
+
+export const deleteProjectTask = (id, project_id) => (dispatch, getState) => {
+    axios.delete(`/backend/api/project-tasks/${id}/`, tokenConfig(getState))
+        .then(res => {
+            dispatch(createMessage({addProject: "Project task deleted"}));
+            dispatch({
+                type: DELETE_PROJECT_TASK,
+                payload: {'id': id, 'project_id': project_id}
             })
         })
         .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));

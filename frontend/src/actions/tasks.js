@@ -24,15 +24,3 @@ export const addTaskCategory = (task_category) => (dispatch, getState) => {
         })
         .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 };
-
-export const addProjectTask = (project_task) => (dispatch, getState) => {
-    axios.post('/backend/api/project-tasks/', project_task, tokenConfig(getState))
-        .then(res => {
-            dispatch(createMessage({addProject: "Task added"}));
-            dispatch({
-                type: ADD_PROJECT_TASK,
-                payload: res.data
-            })
-        })
-        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
-};

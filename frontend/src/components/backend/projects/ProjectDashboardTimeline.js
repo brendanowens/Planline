@@ -1,21 +1,42 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
-import {Button, Checkbox, Drawer, Icon, List, Row, Select, Skeleton, Table} from "antd";
+import {Button, Checkbox, Drawer, Dropdown, Form, Icon, List, Menu, Row, Select, Skeleton, Table} from "antd";
 import VendorAdd from "../vendors/VendorAdd";
 import {hideDrawer, showDrawer} from "../../../actions/drawer";
 import ProjectDashboardAddTask from "./ProjectDashboardAddTask";
 import PropTypes from "prop-types";
 import {getTaskCategories} from "../../../actions/tasks";
+import {deleteProjectTask} from "../../../actions/projects";
+import {Field} from "redux-form";
+
+// const menu = (task)(
+// //     <Menu>
+// //         <Menu.Item key="1"><span style={{color: "#6E0001"}}><a
+// //             onClick={this.props.deleteProjectTask.bind(this, task.id, task.project.id)}>Delete</a></span></Menu.Item>
+// //     </Menu>
+// // );
+
 
 export class ProjectDashboardTimeline extends React.Component {
     static propTypes = {
         task_categories: PropTypes.array,
         getTaskCategories: PropTypes.func,
+        deleteProjectTask: PropTypes.func.isRequired
     };
 
     componentDidMount() {
         this.props.getTaskCategories();
+    };
+
+    DeleteTaskMenu = props => {
+        const {task} = props;
+        return (
+            <Menu>
+                <Menu.Item key="1"><a
+                    onClick={this.props.deleteProjectTask.bind(this, task.id, task.project)}>Delete</a></Menu.Item>
+            </Menu>
+        )
     };
 
     render() {
@@ -43,27 +64,30 @@ export class ProjectDashboardTimeline extends React.Component {
                                             <div>
                                                 <Draggable draggableId={task.id} index={0}>
                                                     {(provided, snapshot) => (
-                                                        <div
-                                                            ref={provided.innerRef}
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                        >
-                                                            <List.Item actions={[
-                                                                <span>Complete {task.days_before_event_display} out</span>,
-                                                                <span>Complete by {task.due_date}</span>,
-                                                                <Button
-                                                                    onClick={this.props.showDrawer.bind(this, task)}>Details</Button>,
-                                                                <Icon type="menu"/>,
-                                                            ]}>
-                                                                <Checkbox/><span> </span>
-                                                                <Skeleton loading={false} active>
-                                                                    <List.Item.Meta
-                                                                        title={task.name}
-                                                                        description={task.category_object.name}
-                                                                    />
-                                                                </Skeleton>
-                                                            </List.Item>
-                                                        </div>
+                                                        <Dropdown overlay={<this.DeleteTaskMenu task={task}/>}
+                                                                  trigger={['contextMenu']}>
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                            >
+                                                                <List.Item actions={[
+                                                                    <span>Complete {task.days_before_event_display} out</span>,
+                                                                    <span>Complete by {task.due_date}</span>,
+                                                                    <Button
+                                                                        onClick={this.props.showDrawer.bind(this, task)}>Details</Button>,
+                                                                    <Icon type="menu"/>,
+                                                                ]}>
+                                                                    <Checkbox/><span> </span>
+                                                                    <Skeleton loading={false} active>
+                                                                        <List.Item.Meta
+                                                                            title={task.name}
+                                                                            description={task.category_object.name}
+                                                                        />
+                                                                    </Skeleton>
+                                                                </List.Item>
+                                                            </div>
+                                                        </Dropdown>
                                                     )}
                                                 </Draggable>
                                                 {provided.placeholder}
@@ -104,4 +128,9 @@ const mapStateToProps = (state, ownProps) => ({
     task_categories: state.tasks.task_categories
 });
 
-export default connect(mapStateToProps, {showDrawer, hideDrawer, getTaskCategories})(ProjectDashboardTimeline);
+export default connect(mapStateToProps, {
+    showDrawer,
+    hideDrawer,
+    getTaskCategories,
+    deleteProjectTask
+})(ProjectDashboardTimeline);

@@ -5,7 +5,7 @@ import {addVendor} from "../../../actions/vendors";
 import {Field, reduxForm} from 'redux-form'
 import {Form, Input, Radio, Select, Button, DatePicker} from "antd";
 import {makeField} from "../../common/makeField";
-import {addProjectTask} from "../../../actions/tasks";
+import {addProjectTask} from "../../../actions/projects";
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
@@ -39,7 +39,6 @@ const ASelect = makeField(Select, formItemLayout);
 const ATextArea = makeField(TextArea, formItemLayout);
 
 let ProjectDashboardTaskForm = props => {
-    console.log(props);
     const {handleSubmit} = props;
     const {task_categories} = props;
     return (<Form onSubmit={handleSubmit}>
@@ -75,7 +74,7 @@ ProjectDashboardTaskForm = reduxForm({
 class ExportProjectDashboardTaskForm extends React.Component {
 
     static propTypes = {
-        addProjectTask: PropTypes.func.isRequired
+        addProjectTask: PropTypes.func.isRequired,
     };
 
     submit = values => {
