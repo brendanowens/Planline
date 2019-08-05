@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from .api import RegisterAPI, LoginAPI, UserAPI, PlannerClientConfigViewSet, VendorViewSet, AttributeViewSet, \
-    AttributeValueViewSet, VendorTypeViewSet, ProjectViewSet, ProjectContactViewSet, TaskCategoryViewSet, \
+    AttributeValueViewSet, VendorTypeViewSet, ProjectViewSet, ProjectContactViewSet, \
     ProjectTemplateViewSet, TaskViewSet, TemplateTaskViewSet, ProjectTaskViewSet
 from knox import views as knox_views
 
@@ -14,7 +14,6 @@ router.register('api/vendor-types', VendorTypeViewSet, 'vendor_types')
 router.register('api/attribute-values', AttributeValueViewSet, 'attribute_values')
 router.register('api/projects', ProjectViewSet, 'projects')
 router.register('api/project-contacts', ProjectContactViewSet, 'project_contacts')
-router.register('api/task-categories', TaskCategoryViewSet, 'task_categories')
 router.register('api/project-templates', ProjectTemplateViewSet, 'project_templates')
 router.register('api/tasks', TaskViewSet, 'tasks')
 router.register('api/template-tasks', TemplateTaskViewSet, 'template_tasks')

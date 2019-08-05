@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 
 # User Serializer
 from backend.models import PlannerClientConfig, Vendor, VendorType, Address, Contact, Project, ProjectContact, \
-    TaskCategory, ProjectTemplate, Task, TemplateTask, ProjectTask
+    ProjectTemplate, Task, TemplateTask, ProjectTask
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -168,12 +168,6 @@ class ProjectContactSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TaskCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TaskCategory
-        fields = '__all__'
-
-
 class ProjectTemplateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectTemplate
@@ -182,8 +176,6 @@ class ProjectTemplateSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
     due_date = serializers.CharField(read_only=True)
-    category = serializers.PrimaryKeyRelatedField(queryset=TaskCategory.objects.all())
-    category_object = TaskCategorySerializer(read_only=True, source='category')
     visible_to_client = serializers.BooleanField(default=False)
 
     class Meta:

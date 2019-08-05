@@ -151,13 +151,6 @@ class VendorContact(Contact):
     vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True, related_name='vendor_contacts')
 
 
-class TaskCategory(models.Model):
-    name = models.CharField(max_length=75, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
 class ProjectTemplate(models.Model):
     name = models.CharField(max_length=200)
 
@@ -168,7 +161,6 @@ class ProjectTemplate(models.Model):
 class Task(models.Model):
     name = models.CharField(max_length=200, null=True)
     days_before_event = models.IntegerField()
-    category = models.ForeignKey(TaskCategory, on_delete=models.SET_NULL, null=True)
     # TODO add assignee (could be client or coworker)
     visible_to_client = models.BooleanField()
     note = models.TextField(max_length=500, blank=True, null=True)

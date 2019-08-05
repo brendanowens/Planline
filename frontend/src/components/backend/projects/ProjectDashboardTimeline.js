@@ -6,9 +6,10 @@ import VendorAdd from "../vendors/VendorAdd";
 import {hideDrawer, showDrawer} from "../../../actions/drawer";
 import ProjectDashboardAddTask from "./ProjectDashboardAddTask";
 import PropTypes from "prop-types";
-import {getTaskCategories} from "../../../actions/tasks";
+// import {getTaskCategories} from "../../../actions/tasks";
 import {deleteProjectTask} from "../../../actions/projects";
 import {Field} from "redux-form";
+import ProjectDashboardEditTask from "./ProjectDashboardEditTask";
 
 // const menu = (task)(
 // //     <Menu>
@@ -20,21 +21,18 @@ import {Field} from "redux-form";
 
 export class ProjectDashboardTimeline extends React.Component {
     static propTypes = {
-        task_categories: PropTypes.array,
-        getTaskCategories: PropTypes.func,
         deleteProjectTask: PropTypes.func.isRequired
     };
 
     componentDidMount() {
-        this.props.getTaskCategories();
     };
 
     DeleteTaskMenu = props => {
         const {task} = props;
         return (
             <Menu>
-                <Menu.Item key="1"><a
-                    onClick={this.props.deleteProjectTask.bind(this, task.id, task.project)}>Delete</a></Menu.Item>
+                <Menu.Item key="1"
+                           onClick={this.props.deleteProjectTask.bind(this, task.id, task.project)}>Delete</Menu.Item>
             </Menu>
         )
     };
@@ -82,7 +80,7 @@ export class ProjectDashboardTimeline extends React.Component {
                                                                     <Skeleton loading={false} active>
                                                                         <List.Item.Meta
                                                                             title={task.name}
-                                                                            description={task.category_object.name}
+                                                                            description=""
                                                                         />
                                                                     </Skeleton>
                                                                 </List.Item>
@@ -110,9 +108,7 @@ export class ProjectDashboardTimeline extends React.Component {
                         {this.props.drawer.object.add_task === true ?
                             <ProjectDashboardAddTask project={this.props.project}/>
                             :
-                            <div>
-                                <h1>{this.props.drawer.object.name}</h1>
-                            </div>
+                            <ProjectDashboardEditTask task={this.props.drawer.object}/>
                         }
                     </Drawer>
                     : ''
@@ -125,12 +121,10 @@ export class ProjectDashboardTimeline extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
     project: state.projects.projects.filter(project => project.id === parseInt(ownProps.match.params.id))[0],
     drawer: state.drawer,
-    task_categories: state.tasks.task_categories
 });
 
 export default connect(mapStateToProps, {
     showDrawer,
     hideDrawer,
-    getTaskCategories,
     deleteProjectTask
 })(ProjectDashboardTimeline);

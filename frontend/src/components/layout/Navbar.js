@@ -30,7 +30,7 @@ export class MyHeader extends React.Component {
                 <Menu
                     theme="dark"
                     mode="horizontal"
-                    defaultSelectedKeys={['1']}
+                    defaultSelectedKeys={['2']}
                     style={{lineHeight: '64px'}}
                 >
                     {/*<Menu.Item key="1">*/}

@@ -3,12 +3,11 @@ from rest_framework import generics, permissions, viewsets
 from rest_framework.response import Response
 from knox.models import AuthToken
 
-from backend.models import PlannerClientConfig, Vendor, VendorType, Project, ProjectContact, TaskCategory, \
+from backend.models import PlannerClientConfig, Vendor, VendorType, Project, ProjectContact, \
     ProjectTemplate, Task, TemplateTask, ProjectTask
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, PlannerClientConfigSerializer, \
     VendorSerializer, AttributeSerializer, AttributeValueSerializer, VendorTypeSerializer, ProjectSerializer, \
-    ProjectContactSerializer, ProjectTaskSerializer, TemplateTaskSerializer, TaskSerializer, ProjectTemplateSerializer, \
-    TaskCategorySerializer
+    ProjectContactSerializer, ProjectTaskSerializer, TemplateTaskSerializer, TaskSerializer, ProjectTemplateSerializer
 
 
 # Register API
@@ -129,16 +128,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Project.objects.all()
-
-
-class TaskCategoryViewSet(viewsets.ModelViewSet):
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
-    serializer_class = TaskCategorySerializer
-
-    def get_queryset(self):
-        return TaskCategory.objects.all()
 
 
 class ProjectTemplateViewSet(viewsets.ModelViewSet):

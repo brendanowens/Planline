@@ -40,26 +40,26 @@ const ATextArea = makeField(TextArea, formItemLayout);
 
 let ProjectDashboardTaskForm = props => {
     const {handleSubmit} = props;
-    const {task_categories} = props;
+    // const {task_categories} = props;
     return (<Form onSubmit={handleSubmit}>
         <div>
             <h1>Add New Task</h1>
         </div>
         <Field label="Task Name *" name="name" component={AInput} type="text"/>
         <Field label="Days Before Event *" name="days_before_event" component={AInput} type="number"/>
-        <Field label="Category *" name="category" component={ASelect}>
-            <Select.Option value="" disabled>-</Select.Option>
-            {task_categories.map(category => {
-                    return (
-                        <Select.Option
-                            key={category.id}
-                            value={category.id}
-                            label={category.name}>{category.name}
-                        </Select.Option>
-                    );
-                }
-            )}
-        </Field>
+        {/*<Field label="Category *" name="category" component={ASelect}>*/}
+        {/*    <Select.Option value="" disabled>-</Select.Option>*/}
+        {/*    {task_categories.map(category => {*/}
+        {/*            return (*/}
+        {/*                <Select.Option*/}
+        {/*                    key={category.id}*/}
+        {/*                    value={category.id}*/}
+        {/*                    label={category.name}>{category.name}*/}
+        {/*                </Select.Option>*/}
+        {/*            );*/}
+        {/*        }*/}
+        {/*    )}*/}
+        {/*</Field>*/}
         <Field label="Notes" name="note" component={ATextArea} type="textarea"/>
         <FormItem {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">Add Task</Button>
@@ -87,12 +87,12 @@ class ExportProjectDashboardTaskForm extends React.Component {
     };
 
     render() {
-        return <ProjectDashboardTaskForm onSubmit={this.submit} task_categories={this.props.task_categories}/>
+        return <ProjectDashboardTaskForm onSubmit={this.submit}/>
     }
 }
 
 const mapStateToProps = state => ({
-    task_categories: state.tasks.task_categories
+    // task_categories: state.tasks.task_categories
 });
 
 export default connect(mapStateToProps, {addProjectTask})(ExportProjectDashboardTaskForm)
