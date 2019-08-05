@@ -26,11 +26,11 @@ export class ProjectList extends Component {
             dataIndex: 'expected_completion_date',
             key: 'expected_completion_date',
         },
-        {
-            title: 'Completed',
-            dataIndex: 'completed_display',
-            key: 'completed_display',
-        },
+        // {
+        //     title: 'Completed',
+        //     dataIndex: 'completed_display',
+        //     key: 'completed_display',
+        // },
         // {
         //     title: '',
         //     key: 'id',
@@ -71,7 +71,7 @@ export class ProjectList extends Component {
                             }}
                         >
                             <Row
-                            style={{paddingBottom: '2rem'}}
+                                style={{paddingBottom: '2rem'}}
                             >
                                 <Button onClick={this.props.showDrawer.bind(this, {})}>
                                     <Icon type="plus-circle"/>
@@ -82,19 +82,13 @@ export class ProjectList extends Component {
                                    rowKey={project => project.id}/>
                             {this.props.drawer.object !== null ?
                                 <Drawer
-                                    width={640}
+                                    width={840}
                                     placement="right"
                                     closable={true}
                                     onClose={this.props.hideDrawer}
                                     visible={this.props.drawer.drawer_visible}
                                 >
                                     <ProjectForm/>
-                                    {/*<Row>*/}
-                                    {/*    <h1>{this.props.drawer.object.name}</h1>*/}
-                                    {/*</Row>*/}
-                                    {/*<Table pagination={false} dataSource={this.props.drawer.object.attributes}*/}
-                                    {/*       columns={this.vendorTypeColumns}*/}
-                                    {/*       rowKey={attribute => attribute.id} size="small"/>*/}
                                 </Drawer>
                                 : ''}
                         </Content>

@@ -48,7 +48,7 @@ class App extends Component {
                             <Fragment>
                                 <MyHeader/>
                                 <Alerts/>
-                                <PrivateRoute exact path="/" component={HeaderSider}/>
+                                <PrivateRoute exact path="/" component={Projects}/>
                                 <Route path="/register" component={Register}/>
                                 <Route path="/login" component={Login}/>
                                 <PrivateRoute path="/dashboard" component={Dashboard}/>

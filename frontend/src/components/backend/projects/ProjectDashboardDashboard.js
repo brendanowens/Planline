@@ -20,17 +20,15 @@ export class ProjectDashboardDashboard extends React.Component {
 
     render() {
         return (
-            <span>
-                <Row gutter={16}>
-                                <Col span={12}>
-                                    <Statistic title="Days Until Event"
-                                               value={this.props.project.days_until_completion}/>
-                                </Col>
-                                <Col span={12}>
-                                    <Doughnut data={this.data}/>
-                                </Col>
-                            </Row>
-            </span>
+            <Row gutter={16}>
+                <Col span={12}>
+                    <Statistic title="Days Until Event"
+                               value={this.props.project.days_until_completion}/>
+                </Col>
+                {/*<Col span={12}>*/}
+                {/*    <Doughnut data={this.data}/>*/}
+                {/*</Col>*/}
+            </Row>
         );
     }
 }

@@ -40,10 +40,12 @@ const dateFormat = "MM-DD-YYYY";
 let ProjectForm = props => {
     const {handleSubmit} = props;
     return (<form onSubmit={handleSubmit}>
+        <h1>Add New Project</h1>
         <Field label="Project Name" name="name" component={AInput} type="text"/>
-        <Field label="Expected Completion Date" name="expected_completion_date" component={AInput}/>
+        <Field placeholder="yyyy-mm-dd" label="Expected Completion Date" name="expected_completion_date"
+               component={AInput}/>
         <FormItem {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">Submit</Button>
+            <Button type="primary" htmlType="submit">Add Project</Button>
         </FormItem>
     </form>)
 };
