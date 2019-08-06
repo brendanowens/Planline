@@ -73,6 +73,10 @@ class Project(models.Model):
         project_contact.projects.add(self)
         return project_contact, project_contact_created, user_created
 
+    @property
+    def parent_tasks(self):
+        return self.projecttask_set.filter(parent__isnull=True)
+
 
 class ProjectContact(Contact):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -158,12 +162,13 @@ class ProjectTemplate(models.Model):
         return self.name
 
 
-class Task(models.Model):
+class Task(PolymorphicModel):
     name = models.CharField(max_length=200, null=True)
     days_before_event = models.IntegerField()
     # TODO add assignee (could be client or coworker)
     visible_to_client = models.BooleanField()
     note = models.TextField(max_length=500, blank=True, null=True)
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='children_tasks')
 
     class Meta:
         ordering = ['-days_before_event']
@@ -177,6 +182,28 @@ class Task(models.Model):
             return str(int(math.ceil(self.days_before_event / 30.5))) + ' months'
         else:
             return str(self.days_before_event) + ' days'
+
+    @property
+    def children_count(self):
+        return self.children_tasks.count()
+
+    @property
+    def is_child(self):
+        if self.parent is not None:
+            return True
+        else:
+            return False
+
+    @property
+    def children(self):
+        return self.children_tasks.all()
+
+    @property
+    def parent_task_name(self):
+        if self.parent:
+            return self.parent.name
+        else:
+            return None
 
 
 class TemplateTask(Task):
@@ -204,3 +231,7 @@ class ProjectTask(Task):
     @property
     def due_date(self):
         return self.project.expected_completion_date - timezone.timedelta(days=self.days_before_event)
+
+    @property
+    def subtask_choices(self):
+        return self.project.projecttask_set.all()

@@ -54,6 +54,7 @@ const ATextArea = makeField(TextArea, formItemLayout);
 let ProjectDashboardEditTask = props => {
     const {handleSubmit} = props;
     const {task} = props;
+    const {project} = props;
     return (
         <Form onSubmit={handleSubmit}>
             <Field name="name" component={ALargeInput} type="text"/>
@@ -62,6 +63,27 @@ let ProjectDashboardEditTask = props => {
             <Field label="Notes" name="note" component={ATextArea} type="textarea"/>
             <Field label="Visible to client" name="visible_to_client" component={ACheckbox}/>
             <Field label="Complete" name="complete" component={ACheckbox}/>
+            <Field
+                label="Parent task"
+                name="parent"
+                component={ASelect}
+                showSearch
+                placeholder="Select a parent task"
+                filterOption={(input, option) =>
+                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+            >
+                {project.tasks.map(task => {
+                        return (
+                            <Select.Option
+                                key={task.id}
+                                value={task.id}
+                                label={task.name}>{task.name}
+                            </Select.Option>
+                        );
+                    }
+                )}
+            </Field>
             <FormItem {...tailFormItemLayout}>
                 <Button type="primary" htmlType="submit">Save</Button>
             </FormItem>
@@ -85,7 +107,8 @@ class ExportProjectDashboardEditTask extends React.Component {
     };
 
     render() {
-        return <ProjectDashboardEditTask onSubmit={this.submit} task={this.props.task} initialValues={this.props.task}/>
+        return <ProjectDashboardEditTask onSubmit={this.submit} task={this.props.task} project={this.props.project}
+                                         initialValues={this.props.task}/>
     }
 }
 

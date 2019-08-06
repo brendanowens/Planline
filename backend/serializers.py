@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
 # User Serializer
+from rest_framework_recursive.fields import RecursiveField
+
 from backend.models import PlannerClientConfig, Vendor, VendorType, Address, Contact, Project, ProjectContact, \
     ProjectTemplate, Task, TemplateTask, ProjectTask
 
@@ -177,6 +179,10 @@ class ProjectTemplateSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     due_date = serializers.CharField(read_only=True)
     visible_to_client = serializers.BooleanField(default=False)
+    children_count = serializers.IntegerField(read_only=True)
+    is_child = serializers.BooleanField(read_only=True)
+    children_tasks = serializers.ListField(child=RecursiveField(), source='children', read_only=True)
+    parent_task_name = serializers.CharField(read_only=True)
 
     class Meta:
         model = Task
@@ -192,14 +198,11 @@ class TemplateTaskSerializer(TaskSerializer):
 class ProjectTaskSerializer(TaskSerializer):
     vendor_attachments = VendorSerializer(many=True, read_only=True)
     days_before_event_display = serializers.CharField(read_only=True)
-    # filter_backends = (DjangoFilterBackend,)
-    # filter_fields = ('project__id',)
+    project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
 
     class Meta:
         model = ProjectTask
         fields = '__all__'
-        # list_serializer_class = KeyedListSerializer
-        # keyed_list_serializer_field = 'id'
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -211,9 +214,3 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = '__all__'
-        # list_serializer_class = KeyedListSerializer
-        # keyed_list_serializer_field = 'id'
-
-    # def to_representation(self, data):
-    #     res = super(ProjectSerializer, self).to_representation(data)
-    #     return {res['id']: res}

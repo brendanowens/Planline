@@ -29,6 +29,7 @@ gunicorn = "*"
 django-letsencrypt = "*"
 django-gm2m = "*"
 django-filter = "*"
+djangorestframework-recursive = "*"
 
 [requires]
 python_version = "3.6"

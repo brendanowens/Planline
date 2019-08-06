@@ -70,8 +70,8 @@ export class ProjectDashboardTimeline extends React.Component {
                                                                 {...provided.dragHandleProps}
                                                             >
                                                                 <List.Item actions={[
+                                                                    <span>{task.children_count} subtasks</span>,
                                                                     <span>Complete {task.days_before_event_display} out</span>,
-                                                                    <span>Complete by {task.due_date}</span>,
                                                                     <Button
                                                                         onClick={this.props.showDrawer.bind(this, task)}>Details</Button>,
                                                                     <Icon type="menu"/>,
@@ -80,7 +80,7 @@ export class ProjectDashboardTimeline extends React.Component {
                                                                     <Skeleton loading={false} active>
                                                                         <List.Item.Meta
                                                                             title={task.name}
-                                                                            description=""
+                                                                            description={task.parent_task_name}
                                                                         />
                                                                     </Skeleton>
                                                                 </List.Item>
@@ -108,7 +108,7 @@ export class ProjectDashboardTimeline extends React.Component {
                         {this.props.drawer.object.add_task === true ?
                             <ProjectDashboardAddTask project={this.props.project}/>
                             :
-                            <ProjectDashboardEditTask task={this.props.drawer.object}/>
+                            <ProjectDashboardEditTask task={this.props.drawer.object} project={this.props.project}/>
                         }
                     </Drawer>
                     : ''
