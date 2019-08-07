@@ -2,6 +2,7 @@ from eav.models import Attribute, Value
 from rest_framework import generics, permissions, viewsets
 from rest_framework.response import Response
 from knox.models import AuthToken
+from backend.permissions import HasGroupPermission, is_in_group
 
 from backend.models import PlannerClientConfig, Vendor, VendorType, Project, ProjectContact, \
     ProjectTemplate, Task, TemplateTask, ProjectTask
@@ -122,11 +123,19 @@ class ProjectContactViewSet(viewsets.ModelViewSet):
 
 class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [
-        permissions.IsAuthenticated
+        permissions.IsAuthenticated,
+        HasGroupPermission
     ]
+    required_groups = {
+        'GET': ['__all__'],
+        'POST': ['Planner'],
+        'PUT': ['Planner'],
+    }
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
+        if is_in_group(self.request.user, 'Client'):
+            return Project.objects.filter(contact_list__user=self.request.user)
         return Project.objects.all()
 
 
