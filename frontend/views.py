@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from planner.settings import DEVELOPMENT
+
+from planner.settings import on_heroku
 
 
 def index(request):
-    dev = DEVELOPMENT
-    return render(request, "frontend/index.html", {'dev': dev})
+    return render(request, "frontend/index.html", {'on_heroku': on_heroku})
