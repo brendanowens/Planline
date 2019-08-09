@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from planner.settings import DEVELOPMENT
 
 
 def index(request):
-    return render(request, "frontend/index.html")
+    dev = DEVELOPMENT
+    return render(request, "frontend/index.html", {'dev': dev})
