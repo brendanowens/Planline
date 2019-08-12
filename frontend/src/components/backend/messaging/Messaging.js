@@ -10,7 +10,7 @@ import CalendarAdd from "./CalendarAdd";
 
 const {Content, Sider} = Layout;
 
-export class CalendarBase extends React.Component {
+export class Messenger extends React.Component {
     render() {
         return (
             <Layout>
@@ -23,7 +23,7 @@ export class CalendarBase extends React.Component {
                             style={{height: '100%', borderRight: 0}}
                         >
                             <Menu.Item key="1">
-                                <Icon type="calendar"/>
+                                <Icon type="calendar" />
                                 <span>Full Calendar</span>
                                 <Link to="/calendar/all/"/>
                             </Menu.Item>
@@ -47,7 +47,7 @@ export class CalendarBase extends React.Component {
                                 margin: 0,
                             }}
                         >
-                            <span>Messaging</span>
+
                         </Content>
                     </Layout>
                 </Layout>
@@ -56,4 +56,4 @@ export class CalendarBase extends React.Component {
     }
 }
 
-export default CalendarBase;
+export default Messenger;

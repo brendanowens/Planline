@@ -214,6 +214,7 @@ class ProjectTask(Task):
     complete = models.BooleanField(default=False)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     vendor_attachments = models.ManyToManyField(Vendor, blank=True)
+    assignee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     # TODO add contact_attachments field
     # TODO add invoice_attachments field
