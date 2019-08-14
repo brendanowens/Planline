@@ -177,9 +177,13 @@ class Task(PolymorphicModel):
         return self.name
 
     @property
+    def months_before_event(self):
+        return int(math.ceil(self.days_before_event / 30.5))
+
+    @property
     def days_before_event_display(self):
         if self.days_before_event > 31:
-            return str(int(math.ceil(self.days_before_event / 30.5))) + ' months'
+            return str(self.months_before_event) + ' months'
         else:
             return str(self.days_before_event) + ' days'
 

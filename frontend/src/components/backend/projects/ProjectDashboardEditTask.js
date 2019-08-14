@@ -3,9 +3,10 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {addVendor} from "../../../actions/vendors";
 import {Field, reduxForm} from 'redux-form'
-import {Form, Input, Radio, Select, Button, DatePicker, Checkbox} from "antd";
+import {Form, Input, Radio, Select, Button, DatePicker, Checkbox, Row, Col} from "antd";
 import {makeField} from "../../common/makeField";
 import {addProjectTask, updateProjectTask} from "../../../actions/projects";
+import {ChatFeed, Message} from 'react-chat-ui'
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
@@ -106,9 +107,70 @@ class ExportProjectDashboardEditTask extends React.Component {
         // this.setState({});
     };
 
+    state = {
+        messages: [],
+    };
+
+    componentWillMount() {
+        this.setState({
+            messages: [
+                new Message({
+                    id: 1,
+                    message: "I'm the recipient! (The person you're talking to)",
+                }), // Gray bubble
+                new Message({
+                    id: 0,
+                    message: "I'm you -- the blue bubble!"
+                }), // Blue bubble
+                new Message({
+                    id: 0,
+                    message: "I'm you -- the blue bubble!"
+                }), // Blue bubble
+                new Message({
+                    id: 1,
+                    message: "I'm you -- the blue bubble!"
+                }), // Blue bubble
+            ],
+        });
+    }
+
+
     render() {
-        return <ProjectDashboardEditTask onSubmit={this.submit} task={this.props.task} project={this.props.project}
-                                         initialValues={this.props.task}/>
+        return (
+            <div>
+                <ProjectDashboardEditTask onSubmit={this.submit} task={this.props.task} project={this.props.project}
+                                          initialValues={this.props.task}/>
+                <Row>
+                    <Col span={12}>
+                        <h3>Private notes</h3>
+                    </Col>
+                    <Col span={12}>
+                        <h3>Chat with client about this task</h3>
+                        <ChatFeed
+                            messages={this.state.messages} // Boolean: list of message objects
+                            // isTyping={this.state.is_typing} // Boolean: is the recipient typing
+                            // hasInputField={true} // Boolean: use our input, or use your own
+                            // showSenderName // show the name of the user who sent the message
+                            bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
+                            bubbleStyles={
+                                {
+                                    text: {
+                                        fontSize: 13
+                                    },
+                                    chatbubble: {
+                                        borderRadius: 12,
+                                        // padding: 40
+                                    }
+                                }
+                            }
+                        />
+                        <Input
+                            placeholder="Type message..."
+                        />
+                    </Col>
+                </Row>
+            </div>
+        )
     }
 }
 

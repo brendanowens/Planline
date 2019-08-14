@@ -198,6 +198,7 @@ class TemplateTaskSerializer(TaskSerializer):
 class ProjectTaskSerializer(TaskSerializer):
     vendor_attachments = VendorSerializer(many=True, read_only=True)
     days_before_event_display = serializers.CharField(read_only=True)
+    months_before_event = serializers.IntegerField(read_only=True)
     project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
 
     class Meta:
