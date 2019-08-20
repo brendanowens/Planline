@@ -71,7 +71,8 @@ export class MyHeader extends React.Component {
                     <SubMenu
                         title={
                             <span className="submenu-title-wrapper">
-                                <Avatar icon="user"/> {user ? `${user.username}` : ''}
+                                <Avatar src="https://i.ibb.co/2W2z68C/image-250nw-776697943.png"
+                                        icon="user"/> {user ? `${user.username}` : ''}
                                 </span>
                         }
                         style={{float: "right"}}

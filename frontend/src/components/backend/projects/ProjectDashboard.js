@@ -60,31 +60,31 @@ export class ProjectDashboard extends React.Component {
                                 <span>Contacts</span>
                                 <Link to={`/projects/dashboard/${this.props.match.params.id}/contacts/`}/>
                             </Menu.Item>
-                            <Menu.Item key="5">
-                                <Icon type="table"/>
-                                <span>Seating</span>
-                                <Link to={`/projects/dashboard/${this.props.match.params.id}/seating/`}/>
-                            </Menu.Item>
+                            {/*<Menu.Item key="5">*/}
+                            {/*    <Icon type="table"/>*/}
+                            {/*    <span>Seating</span>*/}
+                            {/*    <Link to={`/projects/dashboard/${this.props.match.params.id}/seating/`}/>*/}
+                            {/*</Menu.Item>*/}
                             <Menu.Item key="6">
                                 <Icon type="message"/>
                                 <span>Messaging</span>
                                 <Link to={`/projects/dashboard/${this.props.match.params.id}/messaging/`}/>
                             </Menu.Item>
-                            <Menu.Item key="7">
-                                <Icon type="ordered-list"/>
-                                <span>Day of Timeline</span>
-                                <Link to={`/projects/dashboard/${this.props.match.params.id}/day-of-timeline/`}/>
-                            </Menu.Item>
-                            <Menu.Item key="8">
-                                <Icon type="profile"/>
-                                <span>Invoices</span>
-                                <Link to={`/projects/dashboard/${this.props.match.params.id}/invoices/`}/>
-                            </Menu.Item>
-                            <Menu.Item key="9">
-                                <Icon type="audit"/>
-                                <span>Contracts</span>
-                                <Link to={`/projects/dashboard/${this.props.match.params.id}/contracts/`}/>
-                            </Menu.Item>
+                            {/*<Menu.Item key="7">*/}
+                            {/*    <Icon type="ordered-list"/>*/}
+                            {/*    <span>Day of Timeline</span>*/}
+                            {/*    <Link to={`/projects/dashboard/${this.props.match.params.id}/day-of-timeline/`}/>*/}
+                            {/*</Menu.Item>*/}
+                            {/*<Menu.Item key="8">*/}
+                            {/*    <Icon type="profile"/>*/}
+                            {/*    <span>Invoices</span>*/}
+                            {/*    <Link to={`/projects/dashboard/${this.props.match.params.id}/invoices/`}/>*/}
+                            {/*</Menu.Item>*/}
+                            {/*<Menu.Item key="9">*/}
+                            {/*    <Icon type="audit"/>*/}
+                            {/*    <span>Contracts</span>*/}
+                            {/*    <Link to={`/projects/dashboard/${this.props.match.params.id}/contracts/`}/>*/}
+                            {/*</Menu.Item>*/}
                             <Menu.Item key="10">
                                 <Icon type="shop"/>
                                 <span>Vendors</span>

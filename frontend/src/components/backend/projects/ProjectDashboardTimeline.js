@@ -52,7 +52,7 @@ export class ProjectDashboardTimeline extends React.Component {
                                     {this.props.month_list.map(month => {
                                         return (
                                             <div>
-                                                <h2>Complete {month} months out</h2>
+                                                <h4>Complete {month} months out</h4>
                                                 <hr/>
                                                 {this.props.parent_tasks.filter(task => task.months_before_event === month).map(task => {
                                                     return (
@@ -75,25 +75,25 @@ export class ProjectDashboardTimeline extends React.Component {
                                                                                     <Icon type="menu"/>,
                                                                                 ]}
                                                                             >
-                                                                                <Collapse bordered={false}
-                                                                                          style={{width: '100%'}}>
-                                                                                    <Panel
-                                                                                        header={task.name}
-                                                                                        key="1">
-                                                                                        {task.children_tasks.map(child => {
-                                                                                            return (
-                                                                                                <p>{child.name}</p>
-                                                                                            )
-                                                                                        })}
-                                                                                    </Panel>
-                                                                                </Collapse>
-                                                                                {/*<Checkbox/><span> </span>*/}
-                                                                                {/*<Skeleton loading={false} active>*/}
-                                                                                {/*    <List.Item.Meta*/}
-                                                                                {/*        title={task.name}*/}
-                                                                                {/*        description={task.parent_task_name}*/}
-                                                                                {/*    />*/}
-                                                                                {/*</Skeleton>*/}
+                                                                                {/*<Collapse bordered={false}*/}
+                                                                                {/*          style={{width: '100%'}}>*/}
+                                                                                {/*    <Panel*/}
+                                                                                {/*        header={task.name}*/}
+                                                                                {/*        key="1">*/}
+                                                                                {/*        {task.children_tasks.map(child => {*/}
+                                                                                {/*            return (*/}
+                                                                                {/*                <p>{child.name}</p>*/}
+                                                                                {/*            )*/}
+                                                                                {/*        })}*/}
+                                                                                {/*    </Panel>*/}
+                                                                                {/*</Collapse>*/}
+                                                                                <Checkbox/><span> </span>
+                                                                                <Skeleton loading={false} active>
+                                                                                    <List.Item.Meta
+                                                                                        title={task.name}
+                                                                                        // description={task.parent_task_name}
+                                                                                    />
+                                                                                </Skeleton>
                                                                             </List.Item>
                                                                         </div>
                                                                     </Dropdown>
