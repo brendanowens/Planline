@@ -5,10 +5,11 @@ from knox.models import AuthToken
 from backend.permissions import HasGroupPermission, is_in_group
 
 from backend.models import PlannerClientConfig, Vendor, VendorType, Project, ProjectContact, \
-    ProjectTemplate, Task, TemplateTask, ProjectTask
+    ProjectTemplate, Task, TemplateTask, ProjectTask, ProjectTaskNote
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, PlannerClientConfigSerializer, \
     VendorSerializer, AttributeSerializer, AttributeValueSerializer, VendorTypeSerializer, ProjectSerializer, \
-    ProjectContactSerializer, ProjectTaskSerializer, TemplateTaskSerializer, TaskSerializer, ProjectTemplateSerializer
+    ProjectContactSerializer, ProjectTaskSerializer, TemplateTaskSerializer, TaskSerializer, ProjectTemplateSerializer, \
+    ProjectTaskNoteSerializer
 
 
 # Register API
@@ -177,3 +178,13 @@ class ProjectTaskViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return ProjectTask.objects.all()
+
+
+class ProjectTaskNoteViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    serializer_class = ProjectTaskNoteSerializer
+
+    def get_queryset(self):
+        return ProjectTaskNote.objects.all()

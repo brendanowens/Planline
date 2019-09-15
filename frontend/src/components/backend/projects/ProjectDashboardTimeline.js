@@ -122,7 +122,9 @@ export class ProjectDashboardTimeline extends React.Component {
                         {this.props.drawer.object.add_task === true ?
                             <ProjectDashboardAddTask project={this.props.project}/>
                             :
-                            <ProjectDashboardEditTask task={this.props.drawer.object} project={this.props.project}/>
+                            <ProjectDashboardEditTask task={this.props.drawer.object}
+                                                      task_id={this.props.drawer.object_id}
+                                                      project={this.props.project}/>
                         }
                     </Drawer>
                     : ''

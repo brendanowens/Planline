@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate
 from rest_framework_recursive.fields import RecursiveField
 
 from backend.models import PlannerClientConfig, Vendor, VendorType, Address, Contact, Project, ProjectContact, \
-    ProjectTemplate, Task, TemplateTask, ProjectTask
+    ProjectTemplate, Task, TemplateTask, ProjectTask, ProjectTaskNote
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -195,11 +195,20 @@ class TemplateTaskSerializer(TaskSerializer):
         fields = '__all__'
 
 
+class ProjectTaskNoteSerializer(serializers.ModelSerializer):
+    project_id = serializers.PrimaryKeyRelatedField(read_only=True, source='task.project')
+
+    class Meta:
+        model = ProjectTaskNote
+        fields = '__all__'
+
+
 class ProjectTaskSerializer(TaskSerializer):
     vendor_attachments = VendorSerializer(many=True, read_only=True)
     days_before_event_display = serializers.CharField(read_only=True)
     months_before_event = serializers.IntegerField(read_only=True)
     project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
+    notes = ProjectTaskNoteSerializer(many=True, source='projecttasknote_set', read_only=True)
 
     class Meta:
         model = ProjectTask

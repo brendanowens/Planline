@@ -78,7 +78,6 @@ class ExportProjectDashboardTaskForm extends React.Component {
     };
 
     submit = values => {
-        console.log(values);
         values.project = this.props.project.id;
         this.props.addProjectTask(values);
         this.setState({

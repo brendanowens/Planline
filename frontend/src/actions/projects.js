@@ -5,7 +5,10 @@ import {
     ADD_PROJECT,
     ADD_PROJECT_TASK,
     DELETE_PROJECT_TASK,
-    UPDATE_PROJECT_TASK
+    UPDATE_PROJECT_TASK,
+    ADD_PROJECT_TASK_NOTE,
+    UPDATE_PROJECT_TASK_NOTE,
+    DELETE_PROJECT_TASK_NOTE
 } from "./types";
 import {createMessage, returnErrors} from './messages';
 import {tokenConfig} from "./auth";
@@ -73,6 +76,42 @@ export const deleteProjectTask = (id, project_id) => (dispatch, getState) => {
             dispatch(createMessage({addProject: "Project task deleted"}));
             dispatch({
                 type: DELETE_PROJECT_TASK,
+                payload: {'id': id, 'project_id': project_id}
+            })
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+};
+
+export const addProjectTaskNote = (project_task_note) => (dispatch, getState) => {
+    axios.post('/backend/api/project-task-notes/', project_task_note, tokenConfig(getState))
+        .then(res => {
+            dispatch(createMessage({addProject: "Project task note added"}));
+            dispatch({
+                type: ADD_PROJECT_TASK_NOTE,
+                payload: res.data
+            });
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+};
+
+export const updateProjectTaskNote = (project_task_note) => (dispatch, getState) => {
+    axios.put(`/backend/api/project-task-notes/${project_task_note.id}/`, project_task_note, tokenConfig(getState))
+        .then(res => {
+            dispatch(createMessage({addProject: "Project task note updated"}));
+            dispatch({
+                type: UPDATE_PROJECT_TASK_NOTE,
+                payload: res.data
+            })
+        })
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+};
+
+export const deleteProjectTaskNote = (id, project_id) => (dispatch, getState) => {
+    axios.delete(`/backend/api/project-task-notes/${id}/`, tokenConfig(getState))
+        .then(res => {
+            dispatch(createMessage({addProject: "Project task note deleted"}));
+            dispatch({
+                type: DELETE_PROJECT_TASK_NOTE,
                 payload: {'id': id, 'project_id': project_id}
             })
         })

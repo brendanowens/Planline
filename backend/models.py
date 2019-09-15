@@ -240,3 +240,14 @@ class ProjectTask(Task):
     @property
     def subtask_choices(self):
         return self.project.projecttask_set.all()
+
+
+class ProjectTaskNote(models.Model):
+    task = models.ForeignKey(ProjectTask, on_delete=models.CASCADE)
+    # created_by = models.ForeignKey() # TODO add field for employee who created
+    note = models.TextField(max_length=750)
+    created = models.DateTimeField(auto_now=True)
+    modified = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.task) + ' - note ' + str(self.created)

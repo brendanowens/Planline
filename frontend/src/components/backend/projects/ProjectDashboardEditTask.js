@@ -3,33 +3,49 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {addVendor} from "../../../actions/vendors";
 import {Field, reduxForm} from 'redux-form'
-import {Form, Input, Radio, Select, Button, DatePicker, Checkbox, Row, Col} from "antd";
+import {
+    Form,
+    Input,
+    Radio,
+    Select,
+    Button,
+    DatePicker,
+    Checkbox,
+    Row,
+    Col,
+    Icon,
+    Typography,
+    Switch,
+    Divider,
+    List,
+    Popover
+} from "antd";
 import {makeField} from "../../common/makeField";
 import {addProjectTask, updateProjectTask} from "../../../actions/projects";
-import {ChatFeed, Message} from 'react-chat-ui'
+import {MessageList, Input as ChatInput} from "react-chat-elements";
+import {formatRelative} from 'date-fns'
+import ProjectDashboardAddTaskNote from "./ProjectDashboardAddTaskNote";
+import moment from "moment";
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
+const {Title} = Typography;
+const {Paragraph} = Typography;
+const {Text} = Typography;
+
+const {MonthPicker, RangePicker} = DatePicker;
+
+const dateFormat = 'MM/DD/YYYY';
+const monthFormat = 'MM/YYYY';
 
 const formItemLayout = {
     labelCol: {
         xs: {span: 24},
-        sm: {span: 6}
+        sm: {span: 5}
     },
     wrapperCol: {
         xs: {span: 24},
-        sm: {span: 14}
-    }
-};
-
-const formItemLargeLayout = {
-    labelCol: {
-        xs: {span: 0},
-        sm: {span: 0}
-    },
-    wrapperCol: {
-        xs: {span: 40},
-        sm: {span: 20}
+        sm: {span: 19}
     }
 };
 
@@ -41,54 +57,83 @@ const tailFormItemLayout = {
         },
         sm: {
             span: 14,
-            offset: 6
+            offset: 0
         }
     }
 };
 
 const AInput = makeField(Input, formItemLayout);
-const ALargeInput = makeField(Input, formItemLargeLayout);
-const ASelect = makeField(Select, formItemLayout);
+const APlainInput = makeField(Input);
+const ASelect = makeField(Select);
 const ACheckbox = makeField(Checkbox, formItemLayout);
-const ATextArea = makeField(TextArea, formItemLayout);
+const ATextArea = makeField(TextArea);
+const ADatePicker = makeField(DatePicker);
 
 let ProjectDashboardEditTask = props => {
     const {handleSubmit} = props;
     const {task} = props;
     const {project} = props;
     return (
-        <Form onSubmit={handleSubmit}>
-            <Field name="name" component={ALargeInput} type="text"/>
-            <Field label="Days Before Event" name="days_before_event" component={AInput} type="number"/>
-            <p>Due date: {task.due_date}, {task.days_before_event_display} before event</p>
-            <Field label="Notes" name="note" component={ATextArea} type="textarea"/>
-            <Field label="Visible to client" name="visible_to_client" component={ACheckbox}/>
-            <Field label="Complete" name="complete" component={ACheckbox}/>
-            <Field
-                label="Parent task"
-                name="parent"
-                component={ASelect}
-                showSearch
-                placeholder="Select a parent task"
-                filterOption={(input, option) =>
-                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }
-            >
-                {project.tasks.map(task => {
-                        return (
-                            <Select.Option
-                                key={task.id}
-                                value={task.id}
-                                label={task.name}>{task.name}
-                            </Select.Option>
-                        );
+        <div>
+            <Form onSubmit={handleSubmit}>
+                <Title level={3} editable>{task.name}</Title>
+                <Title level={3}><Field label="Complete" name="complete" component={ACheckbox}/></Title>
+                {/*<Field label="Visible to client" name="visible_to_client" component={ACheckbox}/>*/}
+                {/*<Field name="name" component={ALargeInput} type="text"/>*/}
+                {/*<Field label="Days Before Event" name="days_before_event" component={AInput} type="number"/>*/}
+                <span>Complete</span>
+                <Input.Group compact>
+                    <Field style={{width: '100px'}} name="days_before_event" component={APlainInput}
+                           type="number"/>
+                    <Field component={ASelect} name='time_format' style={{width: '150px'}}>
+                        <Select.Option
+                            key='month'
+                            value='month'
+                            label='Month'>Months
+                        </Select.Option>
+                        <Select.Option
+                            key='day'
+                            value='day'
+                            label='Day'>Days
+                        </Select.Option>
+                    </Field>
+                </Input.Group>
+                <span>before event</span>
+                <Paragraph>(or)</Paragraph>
+                <Field name='due_date' component={AInput} defaultValue={moment()}/>
+                {/*<p>Due date: {task.due_date}, {task.days_before_event_display} before event</p>*/}
+                <Field label="Task description" name="note" component={ATextArea} type="textarea"/>
+                {/*<Paragraph editable>{task.note}</Paragraph>*/}
+                <Field
+                    label="Parent task"
+                    name="parent"
+                    component={ASelect}
+                    showSearch
+                    placeholder="Select a parent task"
+                    filterOption={(input, option) =>
+                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
-                )}
-            </Field>
-            <FormItem {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">Save</Button>
-            </FormItem>
-        </Form>
+                >
+                    {project.tasks.map(task => {
+                            return (
+                                <Select.Option
+                                    key={task.id}
+                                    value={task.id}
+                                    label={task.name}>{task.name}
+                                </Select.Option>
+                            );
+                        }
+                    )}
+                </Field>
+                <div style={{paddingBottom: '1.5rem'}}>
+                    <Switch defaultChecked/>
+                    <Text> Task visible to client</Text>
+                </div>
+                <FormItem {...tailFormItemLayout}>
+                    <Button type="primary" htmlType="submit">Save task details</Button>
+                </FormItem>
+            </Form>
+        </div>
     )
 };
 
@@ -111,62 +156,74 @@ class ExportProjectDashboardEditTask extends React.Component {
         messages: [],
     };
 
-    componentWillMount() {
-        this.setState({
-            messages: [
-                new Message({
-                    id: 1,
-                    message: "I'm the recipient! (The person you're talking to)",
-                }), // Gray bubble
-                new Message({
-                    id: 0,
-                    message: "I'm you -- the blue bubble!"
-                }), // Blue bubble
-                new Message({
-                    id: 0,
-                    message: "I'm you -- the blue bubble!"
-                }), // Blue bubble
-                new Message({
-                    id: 1,
-                    message: "I'm you -- the blue bubble!"
-                }), // Blue bubble
-            ],
-        });
-    }
+    privateNoteHelpText = (
+        <div>
+            <Paragraph>
+                Private notes are only visible to you, not your client.<br/>
+                Use this area for new ideas, notes from conversations, etc.
+            </Paragraph>
+        </div>
+    );
 
 
     render() {
+        let task = this.props.project.tasks.filter(task => task.id === this.props.task_id)[0];
         return (
             <div>
-                <ProjectDashboardEditTask onSubmit={this.submit} task={this.props.task} project={this.props.project}
+                <ProjectDashboardEditTask onSubmit={this.submit} task={task} project={this.props.project}
                                           initialValues={this.props.task}/>
-                <Row>
+                <Row style={{paddingTop: '2rem'}}>
                     <Col span={12}>
-                        <h3>Private notes</h3>
+                        <Title level={4}>
+                            Private notes
+                            <Popover content={this.privateNoteHelpText}>
+                                <Icon style={{fontSize: '12px', paddingLeft: '5px'}} type="info-circle"/>
+                            </Popover>
+                        </Title>
+                        <List
+                            itemLayout="horizontal"
+                            dataSource={task.notes}
+                            style={{maxHeight: '270px', overflow: 'auto'}}
+                            renderItem={item => (
+                                <List.Item>
+                                    <List.Item.Meta
+                                        title={item.note}
+                                        description={formatRelative(new Date(item.created), new Date())}
+                                    />
+                                </List.Item>
+                            )}
+                        />
+                        <ProjectDashboardAddTaskNote task={this.props.task}/>
                     </Col>
                     <Col span={12}>
-                        <h3>Chat with client about this task</h3>
-                        <ChatFeed
-                            messages={this.state.messages} // Boolean: list of message objects
-                            // isTyping={this.state.is_typing} // Boolean: is the recipient typing
-                            // hasInputField={true} // Boolean: use our input, or use your own
-                            // showSenderName // show the name of the user who sent the message
-                            bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
-                            bubbleStyles={
-                                {
-                                    text: {
-                                        fontSize: 13
-                                    },
-                                    chatbubble: {
-                                        borderRadius: 12,
-                                        // padding: 40
-                                    }
-                                }
-                            }
-                        />
-                        <Input
-                            placeholder="Type message..."
-                        />
+                        <Title level={4}>Chat with client about this task</Title>
+                        <MessageList
+                            className='message-list'
+                            lockable={true}
+                            toBottomHeight={'100%'}
+                            dataSource={
+                                // this.state.messages.map(message => {
+                                //     return (
+                                //         {
+                                //             position: 'right',
+                                //             type: 'text',
+                                //             text: message.message,
+                                //             date: message.createdAt,
+                                //             notch: false,
+                                //         }
+                                //     );
+                                // })
+                                []
+                            }/>
+                        <ChatInput
+                            placeholder="Type here..."
+                            multiline={true}
+                            rightButtons={
+                                <Button
+                                    color='white'
+                                    // backgroundColor='black'
+                                    text='Send'/>
+                            }/>
                     </Col>
                 </Row>
             </div>

@@ -1,4 +1,4 @@
-import {SHOW_DRAWER, HIDE_DRAWER} from "../actions/types";
+import {SHOW_DRAWER, HIDE_DRAWER, UPDATE_DRAWER} from "../actions/types";
 
 const initialState = {
     drawer_visible: false,
@@ -11,13 +11,15 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 drawer_visible: true,
-                object: action.payload
+                object: action.payload,
+                object_id: action.payload.id
             };
         case HIDE_DRAWER:
             return {
                 ...state,
                 drawer_visible: false,
-                object: null
+                object: null,
+                object_id: null
             };
         default:
             return state

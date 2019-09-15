@@ -1,6 +1,7 @@
 import {
     HIDE_DRAWER,
-    SHOW_DRAWER
+    SHOW_DRAWER,
+    UPDATE_DRAWER
 } from "./types";
 
 export const showDrawer = (object) => (dispatch) => {

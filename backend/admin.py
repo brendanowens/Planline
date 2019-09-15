@@ -1,6 +1,6 @@
 from django.contrib import admin
 from backend.models import PlannerClientConfig, Vendor, Address, VendorContact, VendorType, Project, ProjectContact, \
-    ProjectTemplate, Task, TemplateTask, ProjectTask
+    ProjectTemplate, Task, TemplateTask, ProjectTask, ProjectTaskNote
 from solo.admin import SingletonModelAdmin
 from eav.forms import BaseDynamicEntityForm
 from eav.admin import BaseEntityAdmin
@@ -15,6 +15,7 @@ admin.site.register(ProjectTemplate)
 admin.site.register(Task)
 admin.site.register(TemplateTask)
 admin.site.register(ProjectTask)
+admin.site.register(ProjectTaskNote)
 
 
 class VendorAdminForm(BaseDynamicEntityForm):

@@ -1,0 +1,12 @@
+@import 'mixins';
+@import 'variables';
+
+.chat-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px 0;
+}

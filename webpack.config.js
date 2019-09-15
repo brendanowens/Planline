@@ -1,6 +1,7 @@
 const path = require('path');
 var BundleTracker = require('webpack-bundle-tracker');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const fs = require('fs');
 const lessToJs = require('less-vars-to-js');
@@ -50,21 +51,48 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader'],
+                use: [
+                    'style-loader',
+                    // MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: true
+                        }
+                    },
+                ],
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    'style-loader',
+                    // MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: true,
+                        }
+                    },
+                    'sass-loader'
+                ],
             },
             {
                 test: /\.less$/,
-                use: [{
-                    loader: "style-loader"
-                }, {
-                    loader: "css-loader"
-                }, {
-                    loader: "less-loader",
-                    options: {
-                        javascriptEnabled: true,
-                        modifyVars: themeVariables
+                use: [
+                    {
+                        loader: "style-loader"
+                    },
+                    {
+                        loader: "css-loader"
+                    },
+                    {
+                        loader: "less-loader",
+                        options: {
+                            javascriptEnabled: true,
+                            modifyVars: themeVariables
+                        }
                     }
-                }]
+                ]
             },
         ]
     },
@@ -74,6 +102,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new MiniCssExtractPlugin(),
         new BundleTracker({filename: './webpack-stats.json'}),
         new CleanWebpackPlugin(),
     ]

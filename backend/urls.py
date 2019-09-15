@@ -3,7 +3,7 @@ from rest_framework import routers
 
 from .api import RegisterAPI, LoginAPI, UserAPI, PlannerClientConfigViewSet, VendorViewSet, AttributeViewSet, \
     AttributeValueViewSet, VendorTypeViewSet, ProjectViewSet, ProjectContactViewSet, \
-    ProjectTemplateViewSet, TaskViewSet, TemplateTaskViewSet, ProjectTaskViewSet
+    ProjectTemplateViewSet, TaskViewSet, TemplateTaskViewSet, ProjectTaskViewSet, ProjectTaskNoteViewSet
 from knox import views as knox_views
 
 router = routers.DefaultRouter()
@@ -18,6 +18,7 @@ router.register('api/project-templates', ProjectTemplateViewSet, 'project_templa
 router.register('api/tasks', TaskViewSet, 'tasks')
 router.register('api/template-tasks', TemplateTaskViewSet, 'template_tasks')
 router.register('api/project-tasks', ProjectTaskViewSet, 'project_tasks')
+router.register('api/project-task-notes', ProjectTaskNoteViewSet, 'project_task_notes')
 
 urlpatterns = [
     path('api/auth', include('knox.urls')),
