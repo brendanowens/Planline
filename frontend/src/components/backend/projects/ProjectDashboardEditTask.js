@@ -26,6 +26,11 @@ import {MessageList, Input as ChatInput} from "react-chat-elements";
 import {formatRelative} from 'date-fns'
 import ProjectDashboardAddTaskNote from "./ProjectDashboardAddTaskNote";
 import moment from "moment";
+import {isEmpty} from "../../../utils";
+import {SendBirdAction} from "../../../actions/sendbird";
+import {Chat} from "../../chat/Chat";
+import {SendBirdEvent} from "../../chat/SendBirdEvent";
+import {SendBirdConnection} from "../../chat/SendBirdConnection";
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
@@ -60,6 +65,59 @@ const tailFormItemLayout = {
             offset: 0
         }
     }
+};
+
+const sb = new SendBirdAction();
+
+const chat = new Chat();
+
+const createConnectionHandler = () => {
+    const connectionManager = new SendBirdConnection();
+    console.log(connectionManager);
+    connectionManager.onReconnectStarted = () => {
+        // Spinner.start(body);
+        console.log('[SendBird JS SDK] Reconnect : Started');
+        connectionManager.channel = chat.channel;
+    };
+    connectionManager.onReconnectSucceeded = () => {
+        console.log('[SendBird JS SDK] Reconnect : Succeeded');
+        // Spinner.start(body);
+        chat.refresh(connectionManager.channel);
+    };
+    connectionManager.onReconnectFailed = () => {
+        console.log('[SendBird JS SDK] Reconnect : Failed');
+        connectionManager.remove();
+    };
+};
+
+const createChannelEvent = () => {
+    const channelEvent = new SendBirdEvent();
+    console.log(channelEvent);
+    channelEvent.onChannelChanged = channel => {
+        if (channel._autoMarkAsRead) {
+            channel.markAsRead();
+        }
+    };
+    channelEvent.onUserEntered = (openChannel, user) => {
+        if (SendBirdAction.getInstance().isCurrentUser(user)) {
+            const handler = () => {
+                chat.render(openChannel.url);
+            };
+            chat.render(openChannel.url);
+        }
+    };
+    channelEvent.onUserJoined = (groupChannel, user) => {
+        const handler = () => {
+            chat.render(groupChannel.url, false);
+        };
+        chat.updateChatInfo(groupChannel);
+    };
+    channelEvent.onUserLeft = (groupChannel, user) => {
+        chat.updateChatInfo(groupChannel);
+    };
+    channelEvent.onChannelHidden = groupChannel => {
+        // chatLeft.removeGroupChannelItem(groupChannel.url);
+    };
 };
 
 const AInput = makeField(Input, formItemLayout);
@@ -147,6 +205,30 @@ class ExportProjectDashboardEditTask extends React.Component {
         updateProjectTask: PropTypes.func.isRequired,
     };
 
+    componentDidMount() {
+        const userid = this.props.user.username;
+        const nickname = this.props.user.username;
+        if (isEmpty(userid) || isEmpty(nickname)) {
+            console.log('UserID and Nickname must be required.');
+        }
+        sb
+            .connect(userid, nickname)
+            .then(user => {
+                console.log(user);
+                createConnectionHandler();
+                createChannelEvent();
+                // updateGroupChannelTime();
+            })
+            .catch(() => {
+                console.log('SendBird connection failed.');
+            });
+        sb
+            .createGroupChannel([userid, 'bride'])
+            .then(channel => {
+                chat.render(channel.url, false, '#clientmessagearea2');
+            });
+    }
+
     submit = values => {
         this.props.updateProjectTask(values);
         // this.setState({});
@@ -197,33 +279,7 @@ class ExportProjectDashboardEditTask extends React.Component {
                     </Col>
                     <Col span={12}>
                         <Title level={4}>Chat with client about this task</Title>
-                        <MessageList
-                            className='message-list'
-                            lockable={true}
-                            toBottomHeight={'100%'}
-                            dataSource={
-                                // this.state.messages.map(message => {
-                                //     return (
-                                //         {
-                                //             position: 'right',
-                                //             type: 'text',
-                                //             text: message.message,
-                                //             date: message.createdAt,
-                                //             notch: false,
-                                //         }
-                                //     );
-                                // })
-                                []
-                            }/>
-                        <ChatInput
-                            placeholder="Type here..."
-                            multiline={true}
-                            rightButtons={
-                                <Button
-                                    color='white'
-                                    // backgroundColor='black'
-                                    text='Send'/>
-                            }/>
+                        <div id='clientmessagearea2'></div>
                     </Col>
                 </Row>
             </div>
@@ -233,6 +289,7 @@ class ExportProjectDashboardEditTask extends React.Component {
 
 const mapStateToProps = state => ({
     // task_categories: state.tasks.task_categories,
+    user: state.auth.user
 });
 
 export default connect(mapStateToProps, {updateProjectTask})(ExportProjectDashboardEditTask)

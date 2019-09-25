@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {SendBirdAction} from "../../../actions/sendbird";
-import 'react-chat-elements/dist/main.css';
 import {Chat} from "../../chat/Chat";
 import {SendBirdEvent} from "../../chat/SendBirdEvent";
 import {isEmpty} from '../../../utils'

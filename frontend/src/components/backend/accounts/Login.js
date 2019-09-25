@@ -44,8 +44,11 @@ let LoginForm = props => {
             <Row>
                 <Col xs={20} sm={16} md={12} lg={{span: 6, offset: 9}}>
                     <Card style={{marginTop: 40}}
-                          cover={<img alt="logo" src={organization.logo}/>}
                     >
+                        <Card size="small" style={{width: '100%', marginBottom: '2rem'}}>
+                            <p><b>Demo username:</b> demo</p>
+                            <p><b>Demo password:</b> demopassword</p>
+                        </Card>
                         <form onSubmit={handleSubmit}>
                             <Field label="Username" name="username" component={AInput} type="text"/>
                             <Field label="Password" name="password" component={AInput} type="password"/>
